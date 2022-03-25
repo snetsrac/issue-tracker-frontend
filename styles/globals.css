@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 @layer base {
-    html {
-        @apply h-full bg-gray-100;
-    }
+  html {
+    @apply h-full bg-white;
+  }
 
-    body {
-        @apply h-full;
-    }
+  body {
+    @apply h-full;
+  }
 }
