@@ -61,6 +61,7 @@ export default function Table({
                   <tr>
                     {columns.map((column, i) => (
                       <th
+                        key={column.accessor}
                         scope='col'
                         className={classNames(
                           'py-3.5 text-left text-sm font-semibold text-gray-900',
@@ -77,6 +78,7 @@ export default function Table({
                     <tr key={row.id}>
                       {columns.map((column, i) => (
                         <td
+                          key={column.accessor}
                           className={classNames(
                             'max-w-0 truncate py-4 text-sm',
                             columnPadding(columns.length, i),
