@@ -85,5 +85,5 @@ export default function Dashboard() {
 }
 
 Dashboard.getLayout = (page: ReactElement) => {
-  return <Layout title='Dashboard'>{page}</Layout>;
+  return <Layout>{page}</Layout>;
 };
