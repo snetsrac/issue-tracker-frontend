@@ -1,4 +1,6 @@
 import { ReactElement } from 'react';
+import { dehydrate, QueryClient, useQuery } from 'react-query';
+import { getIssues } from '../../api';
 import Layout from '../../components/layout';
 import Table from '../../components/table';
 
@@ -6,7 +8,6 @@ const columns = [
   {
     accessor: 'title',
     title: 'Title',
-    bold: true,
   },
   {
     accessor: 'description',
@@ -14,36 +15,36 @@ const columns = [
   },
 ];
 
-const issues = [
-  {
-    id: 1,
-    title: 'First Issue',
-    description: 'This is the first issue.',
-  },
-  {
-    id: 2,
-    title: 'Second Issue',
-    description: 'This is the second issue.',
-  },
-  {
-    id: 3,
-    title: 'Third Issue',
-    description: 'This is the third issue.',
-  },
-  {
-    id: 4,
-    title: 'Fourth Issue',
-    description: 'This is the fourth issue.',
-  },
-  {
-    id: 5,
-    title: 'Fifth Issue',
-    description:
-      'This is the fifth issue. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description. It has a very long description.',
-  },
-];
-
 export default function Issues() {
+  const result = useQuery(['issues'], () => getIssues());
+
+  if (result.isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (result.isError || result.data === undefined) {
+    return (
+      <span>
+        Error:{' '}
+        {result.error instanceof Error
+          ? result.error.message
+          : 'Unknown error.'}
+      </span>
+    );
+  }
+
+  const issues = result.data._embedded.issueList.map((issue) => {
+    return {
+      id: issue.id,
+      title: (
+        <a href={`/issues/${issue.id}`} className='font-medium text-gray-900'>
+          {issue.title}
+        </a>
+      ),
+      description: issue.description,
+    };
+  });
+
   return (
     <Table
       title='Issues'

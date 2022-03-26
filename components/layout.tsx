@@ -18,7 +18,7 @@ const navigation = [
   { name: 'Dashboard', icon: HomeIcon, href: '#', current: true },
   { name: 'Team', icon: UsersIcon, href: '#', count: 3, current: false },
   { name: 'Projects', icon: FolderIcon, href: '#', count: 4, current: false },
-  { name: 'My Issues', icon: ViewListIcon, href: '#', current: false },
+  { name: 'My Issues', icon: ViewListIcon, href: '/issues', current: false },
 ];
 
 export type Navigation = typeof navigation;

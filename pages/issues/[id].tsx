@@ -7,11 +7,32 @@ import {
 } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
+import { useQuery } from 'react-query';
+import { getIssue } from '../../api';
 import Layout from '../../components/layout';
 
 export default function Issue() {
   const router = useRouter();
-  router.query.id;
+  const id = router.query.id;
+
+  const result = useQuery(['issue', id], () => getIssue(id as string));
+
+  if (result.isLoading) {
+    return <span>Loading...</span>;
+  }
+
+  if (result.isError || result.data === undefined) {
+    return (
+      <span>
+        Error:{' '}
+        {result.error instanceof Error
+          ? result.error.message
+          : 'Unknown error.'}
+      </span>
+    );
+  }
+
+  const issue = result.data;
 
   return (
     <div className='mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 xl:grid xl:max-w-5xl xl:grid-cols-3'>
@@ -21,10 +42,10 @@ export default function Issue() {
             <div className='md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6'>
               <div>
                 <h1 className='text-2xl font-bold text-gray-900'>
-                  ARIA attribute misspelled
+                  {issue.title}
                 </h1>
                 <p className='mt-2 text-sm text-gray-500'>
-                  #400 opened by{' '}
+                  #{issue.id} opened by{' '}
                   <a href='#' className='font-medium text-gray-900'>
                     Hilary Mahy
                   </a>{' '}
@@ -152,27 +173,7 @@ export default function Issue() {
             <div className='py-3 xl:pt-6 xl:pb-0'>
               <h2 className='sr-only'>Description</h2>
               <div className='prose max-w-none'>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Expedita, hic? Commodi cumque similique id tempora molestiae
-                  deserunt at suscipit, dolor voluptatem, numquam, harum
-                  consequatur laboriosam voluptas tempore aut voluptatum alias?
-                </p>
-                <ul role='list'>
-                  <li>
-                    Tempor ultrices proin nunc fames nunc ut auctor vitae sed.
-                    Eget massa parturient vulputate fermentum id facilisis nam
-                    pharetra. Aliquet leo tellus.
-                  </li>
-                  <li>
-                    Turpis ac nunc adipiscing adipiscing metus tincidunt
-                    senectus tellus.
-                  </li>
-                  <li>
-                    Semper interdum porta sit tincidunt. Dui suspendisse
-                    scelerisque amet metus eget sed. Ut tellus in sed dignissim.
-                  </li>
-                </ul>
+                <p>{issue.description}</p>
               </div>
             </div>
           </div>

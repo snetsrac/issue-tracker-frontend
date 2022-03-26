@@ -5,11 +5,16 @@ type TableColumn = {
   bold?: boolean;
 };
 
+type TableData = {
+  id: number | string;
+  [accessor: string]: number | string | JSX.Element | null;
+};
+
 type TableProps = {
   title: string;
   description: string;
   columns: TableColumn[];
-  data: { id: number; [key: string]: string | number | null }[];
+  data: TableData[];
 };
 
 function classNames(...classes: string[]) {
@@ -75,16 +80,13 @@ export default function Table({
                 </thead>
                 <tbody className='divide-y divide-gray-200 bg-white'>
                   {data.map((row) => (
-                    <tr key={row.id}>
+                    <tr key={row.id} className='hover:bg-gray-200'>
                       {columns.map((column, i) => (
                         <td
                           key={column.accessor}
                           className={classNames(
-                            'max-w-0 truncate py-4 text-sm',
-                            columnPadding(columns.length, i),
-                            column.bold
-                              ? 'font-medium text-gray-900'
-                              : 'text-gray-500'
+                            'max-w-0 truncate py-4 text-sm text-gray-500',
+                            columnPadding(columns.length, i)
                           )}
                         >
                           {row[column.accessor]}
