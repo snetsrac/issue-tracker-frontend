@@ -1,6 +1,9 @@
+import Link from 'next/link';
 import { ReactElement } from 'react';
 import { useQuery } from 'react-query';
 import { getIssues } from '../../api';
+import { IssuePriority } from '../../components/issues/issuePriority';
+import { IssueStatus } from '../../components/issues/IssueStatus';
 import Layout from '../../components/layout';
 import Table from '../../components/table';
 
@@ -13,9 +16,17 @@ const columns = [
     accessor: 'description',
     title: 'Description',
   },
+  {
+    accessor: 'status',
+    title: 'Status',
+  },
+  {
+    accessor: 'priority',
+    title: 'Priority',
+  },
 ];
 
-export default function Issues() {
+export default function IssuesPage() {
   const result = useQuery(['issues'], () => getIssues());
 
   if (result.isLoading) {
@@ -37,11 +48,13 @@ export default function Issues() {
     return {
       id: issue.id,
       title: (
-        <a href={`/issues/${issue.id}`} className='font-medium text-gray-900'>
-          {issue.title}
-        </a>
+        <Link href={`/issues/${issue.id}`}>
+          <a className='font-medium text-gray-900'>{issue.title}</a>
+        </Link>
       ),
       description: issue.description,
+      status: <IssueStatus status={issue.status} />,
+      priority: <IssuePriority priority={issue.priority} />,
     };
   });
 
@@ -55,6 +68,6 @@ export default function Issues() {
   );
 }
 
-Issues.getLayout = (page: ReactElement) => {
+IssuesPage.getLayout = (page: ReactElement) => {
   return <Layout>{page}</Layout>;
 };

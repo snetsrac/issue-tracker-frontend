@@ -1,6 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Dispatch, Fragment, SetStateAction } from 'react';
 import { Navigation, Projects } from './layout';
 
@@ -72,30 +73,31 @@ export default function SidebarMobile({
               <nav className='px-2'>
                 <div className='space-y-1'>
                   {navigation.map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      className={
-                        (item.current
-                          ? 'bg-gray-900 text-white'
-                          : 'text-gray-300 hover:bg-gray-700 hover:text-white') +
-                        ' ' +
-                        'group flex items-center rounded-md px-2 py-2 text-base font-medium'
-                      }
-                      aria-current={item.current ? 'page' : undefined}
-                    >
-                      <item.icon
+                    <Link href={item.href}>
+                      <a
+                        key={item.href}
                         className={
                           (item.current
-                            ? 'text-gary-300'
-                            : 'text-gray-400 group-hover:text-gray-300') +
+                            ? 'bg-gray-900 text-white'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white') +
                           ' ' +
-                          'mr-4 h-6 w-6 flex-shrink-0'
+                          'group flex items-center rounded-md px-2 py-2 text-base font-medium'
                         }
-                        aria-hidden='true'
-                      />
-                      {item.name}
-                    </a>
+                        aria-current={item.current ? 'page' : undefined}
+                      >
+                        <item.icon
+                          className={
+                            (item.current
+                              ? 'text-gary-300'
+                              : 'text-gray-400 group-hover:text-gray-300') +
+                            ' ' +
+                            'mr-4 h-6 w-6 flex-shrink-0'
+                          }
+                          aria-hidden='true'
+                        />
+                        {item.name}
+                      </a>
+                    </Link>
                   ))}
                 </div>
                 <div className='mt-10'>
@@ -104,13 +106,14 @@ export default function SidebarMobile({
                   </p>
                   <div className='mt-2 space-y-1'>
                     {projects.map((project) => (
-                      <a
-                        key={project.id}
-                        href={project.href}
-                        className='flex items-center rounded-md px-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
-                      >
-                        <span className='truncate'>{project.name}</span>
-                      </a>
+                      <Link href={project.href}>
+                        <a
+                          key={project.id}
+                          className='flex items-center rounded-md px-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
+                        >
+                          <span className='truncate'>{project.name}</span>
+                        </a>
+                      </Link>
                     ))}
                   </div>
                 </div>

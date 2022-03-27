@@ -7,10 +7,12 @@ type PageMetadata = {
   totalPages: number;
 };
 
-type Issue = {
+export type Issue = {
   id: number;
   title: string;
   description: string;
+  status: 'OPEN' | 'IN_PROGRESS' | 'MORE_INFO_NEEDED' | 'RESOLVED';
+  priority: 'HIGH' | 'MEDIUM' | 'LOW';
 };
 
 type Issues = {
@@ -18,7 +20,7 @@ type Issues = {
 } & PageMetadata;
 
 const instance = axios.create({
-  baseURL: 'http://localhost/api',
+  baseURL: 'http://localhost:8080/api',
   timeout: 5000,
   headers: {
     Accept: 'application/hal+json',

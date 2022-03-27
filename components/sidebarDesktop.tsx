@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { Navigation, Projects } from './layout';
 
 type SidebarDesktopProps = {
@@ -23,30 +24,31 @@ export default function SidebarDesktop({
           <nav className='flex-1 px-2 py-4'>
             <div className='space-y-1'>
               {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className={
-                    (item.current
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-300 hover:bg-gray-700 hover:text-white') +
-                    ' ' +
-                    'group flex items-center rounded-md px-2 py-2 text-sm font-medium'
-                  }
-                  aria-current={item.current ? 'page' : undefined}
-                >
-                  <item.icon
+                <Link href={item.href}>
+                  <a
+                    key={item.href}
                     className={
                       (item.current
-                        ? 'text-gray-300'
-                        : 'text-gray-400 group-hover:text-gray-300') +
+                        ? 'bg-gray-900 text-white'
+                        : 'text-gray-300 hover:bg-gray-700 hover:text-white') +
                       ' ' +
-                      'mr-3 h-6 w-6 flex-shrink-0'
+                      'group flex items-center rounded-md px-2 py-2 text-sm font-medium'
                     }
-                    aria-hidden='true'
-                  />
-                  {item.name}
-                </a>
+                    aria-current={item.current ? 'page' : undefined}
+                  >
+                    <item.icon
+                      className={
+                        (item.current
+                          ? 'text-gray-300'
+                          : 'text-gray-400 group-hover:text-gray-300') +
+                        ' ' +
+                        'mr-3 h-6 w-6 flex-shrink-0'
+                      }
+                      aria-hidden='true'
+                    />
+                    {item.name}
+                  </a>
+                </Link>
               ))}
             </div>
             <div className='mt-10'>
@@ -55,13 +57,14 @@ export default function SidebarDesktop({
               </p>
               <div className='mt-2 space-y-1'>
                 {projects.map((project) => (
-                  <a
-                    key={project.id}
-                    href={project.href}
-                    className='group flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
-                  >
-                    <span className='truncate'>{project.name}</span>
-                  </a>
+                  <Link href={project.href}>
+                    <a
+                      key={project.id}
+                      className='group flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
+                    >
+                      <span className='truncate'>{project.name}</span>
+                    </a>
+                  </Link>
                 ))}
               </div>
             </div>
