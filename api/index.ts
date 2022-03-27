@@ -1,41 +1,21 @@
 import axios from 'axios';
 
 type PageMetadata = {
-  page: number;
+  size: number;
+  number: number;
   totalElements: number;
   totalPages: number;
-  number: number;
-};
-
-type HalLink = {
-  href: string;
-  templated?: boolean;
-  type?: string;
-  deprecation?: string;
-  name?: string;
-  profile?: string;
-  title?: string;
-  hreflang?: string;
 };
 
 type Issue = {
   id: number;
   title: string;
   description: string;
-  _links?: {
-    [rel: string]: HalLink;
-  };
 };
 
 type Issues = {
-  _embedded: {
-    issueList: Issue[];
-  };
-  _links?: {
-    [rel: string]: HalLink;
-  };
-  page: PageMetadata;
-};
+  content: Issue[];
+} & PageMetadata;
 
 const instance = axios.create({
   baseURL: 'http://localhost/api',

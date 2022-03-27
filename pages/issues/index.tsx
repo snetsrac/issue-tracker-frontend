@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { dehydrate, QueryClient, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 import { getIssues } from '../../api';
 import Layout from '../../components/layout';
 import Table from '../../components/table';
@@ -33,7 +33,7 @@ export default function Issues() {
     );
   }
 
-  const issues = result.data._embedded.issueList.map((issue) => {
+  const issues = result.data.content.map((issue) => {
     return {
       id: issue.id,
       title: (
