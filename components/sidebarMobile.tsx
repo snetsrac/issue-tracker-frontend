@@ -73,9 +73,8 @@ export default function SidebarMobile({
               <nav className='px-2'>
                 <div className='space-y-1'>
                   {navigation.map((item) => (
-                    <Link href={item.href}>
+                    <Link href={item.href} key={item.href}>
                       <a
-                        key={item.href}
                         className={
                           (item.current
                             ? 'bg-gray-900 text-white'
@@ -106,11 +105,8 @@ export default function SidebarMobile({
                   </p>
                   <div className='mt-2 space-y-1'>
                     {projects.map((project) => (
-                      <Link href={project.href}>
-                        <a
-                          key={project.id}
-                          className='flex items-center rounded-md px-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
-                        >
+                      <Link href={project.href} key={project.href}>
+                        <a className='flex items-center rounded-md px-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white'>
                           <span className='truncate'>{project.name}</span>
                         </a>
                       </Link>

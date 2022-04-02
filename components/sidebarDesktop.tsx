@@ -24,9 +24,8 @@ export default function SidebarDesktop({
           <nav className='flex-1 px-2 py-4'>
             <div className='space-y-1'>
               {navigation.map((item) => (
-                <Link href={item.href}>
+                <Link href={item.href} key={item.href}>
                   <a
-                    key={item.href}
                     className={
                       (item.current
                         ? 'bg-gray-900 text-white'
@@ -57,11 +56,8 @@ export default function SidebarDesktop({
               </p>
               <div className='mt-2 space-y-1'>
                 {projects.map((project) => (
-                  <Link href={project.href}>
-                    <a
-                      key={project.id}
-                      className='group flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'
-                    >
+                  <Link href={project.href} key={project.id}>
+                    <a className='group flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white'>
                       <span className='truncate'>{project.name}</span>
                     </a>
                   </Link>
