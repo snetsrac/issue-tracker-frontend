@@ -2,11 +2,10 @@ import { ExclamationCircleIcon, ExclamationIcon } from '@heroicons/react/solid';
 import { Issue } from '../../api';
 
 export function IssuePriority({ priority }: { priority: Issue['priority'] }) {
-  const text = priority.toLowerCase();
   let content;
 
   switch (priority) {
-    case 'HIGH':
+    case 'high':
       content = (
         <>
           <ExclamationCircleIcon
@@ -14,12 +13,12 @@ export function IssuePriority({ priority }: { priority: Issue['priority'] }) {
             aria-hidden='true'
           />
           <span className='text-sm font-medium capitalize text-red-700'>
-            {text} Priority
+            {priority} Priority
           </span>
         </>
       );
       break;
-    case 'MEDIUM':
+    case 'medium':
       content = (
         <>
           <ExclamationCircleIcon
@@ -27,12 +26,12 @@ export function IssuePriority({ priority }: { priority: Issue['priority'] }) {
             aria-hidden='true'
           />
           <span className='text-sm font-medium capitalize text-green-700'>
-            {text} Priority
+            {priority} Priority
           </span>
         </>
       );
       break;
-    case 'LOW':
+    case 'low':
       content = (
         <>
           <ExclamationCircleIcon
@@ -40,7 +39,7 @@ export function IssuePriority({ priority }: { priority: Issue['priority'] }) {
             aria-hidden='true'
           />
           <span className='text-sm font-medium capitalize text-gray-900'>
-            {text} Priority
+            {priority} Priority
           </span>
         </>
       );

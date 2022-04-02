@@ -11,28 +11,41 @@ export type Issue = {
   id: number;
   title: string;
   description: string;
-  status: 'OPEN' | 'IN_PROGRESS' | 'MORE_INFO_NEEDED' | 'RESOLVED';
-  priority: 'HIGH' | 'MEDIUM' | 'LOW';
+  status: IssueStatus;
+  priority: IssuePriority;
 };
+
+export enum IssueStatus {
+  OPEN = 'open',
+  IN_PROGRESS = 'in progress',
+  MORE_INFO_NEEDED = 'more info needed',
+  RESOLVED = 'resolved',
+}
+
+export enum IssuePriority {
+  HIGH = 'high',
+  MEDIUM = 'medium',
+  LOW = 'low',
+}
 
 type Issues = {
   content: Issue[];
 } & PageMetadata;
 
-const instance = axios.create({
-  baseURL: 'http://localhost:8080/api',
+const api = axios.create({
+  baseURL: 'http://localhost:8080',
   timeout: 5000,
   headers: {
-    Accept: 'application/hal+json',
+    Accept: 'application/json',
   },
 });
 
-export async function getIssues(page?: string): Promise<Issues> {
+export async function getIssues(page?: string) {
   const path = page === undefined ? '/issues' : `/issues?page=${page}`;
-  return (await instance.get<Issues>(path)).data;
+  return (await api.get<Issues>(path)).data;
 }
 
-export async function getIssue(id: string): Promise<Issue> {
+export async function getIssue(id: string) {
   const path = `/issues/${id}`;
-  return (await instance.get<Issue>(path)).data;
+  return (await api.get<Issue>(path)).data;
 }

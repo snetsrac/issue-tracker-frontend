@@ -8,21 +8,20 @@ import {
 import { Issue } from '../../api';
 
 export function IssueStatus({ status }: { status: Issue['status'] }) {
-  const text = status.toLowerCase().replaceAll('_', ' ');
   let content;
 
   switch (status) {
-    case 'OPEN':
+    case 'open':
       content = (
         <>
           <LockOpenIcon className='h-5 w-5 text-green-500' aria-hidden='true' />
           <span className='text-sm font-medium capitalize text-green-700'>
-            {text}
+            {status}
           </span>
         </>
       );
       break;
-    case 'IN_PROGRESS':
+    case 'in progress':
       content = (
         <>
           <ArrowCircleRightIcon
@@ -30,12 +29,12 @@ export function IssueStatus({ status }: { status: Issue['status'] }) {
             aria-hidden='true'
           />
           <span className='text-sm font-medium capitalize text-orange-700'>
-            {text}
+            {status}
           </span>
         </>
       );
       break;
-    case 'MORE_INFO_NEEDED':
+    case 'more info needed':
       content = (
         <>
           <InformationCircleIcon
@@ -43,12 +42,12 @@ export function IssueStatus({ status }: { status: Issue['status'] }) {
             aria-hidden='true'
           />
           <span className='text-sm font-medium capitalize text-blue-700'>
-            {text}
+            {status}
           </span>
         </>
       );
       break;
-    case 'RESOLVED':
+    case 'resolved':
       content = (
         <>
           <CheckCircleIcon
@@ -56,7 +55,7 @@ export function IssueStatus({ status }: { status: Issue['status'] }) {
             aria-hidden='true'
           />
           <span className='text-sm font-medium capitalize text-purple-700'>
-            {text}
+            {status}
           </span>
         </>
       );
