@@ -59,3 +59,35 @@ export function useGetIssueQuery(id: string, runOnce?: boolean) {
     staleTime: runOnce ? Infinity : undefined,
   });
 }
+
+export function useCreateIssueMutation(issue: IssueNew) {
+  const queryClient = useQueryClient();
+
+  const postIssue = async (issue: IssueNew) => {
+    const response = await api.post<Issue>('issues', issue);
+    return response.data;
+  };
+
+  return useMutation(() => postIssue(issue), {
+    onSuccess: (newIssue) => {
+      queryClient.invalidateQueries(['issues']);
+      queryClient.setQueryData(['issue', newIssue.id.toString()], newIssue);
+    },
+  });
+}
+
+export function useUpdateIssueMutation(id: string, issue: Issue) {
+  const queryClient = useQueryClient();
+
+  const putIssue = async (issue: Issue) => {
+    const response = await api.put<Issue>(`issues/${id}`, issue);
+    return response.data;
+  };
+
+  return useMutation(() => putIssue(issue), {
+    onSuccess: (updatedIssue) => {
+      queryClient.invalidateQueries(['issues']);
+      queryClient.setQueryData(['issue', id], updatedIssue);
+    },
+  });
+}
