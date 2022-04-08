@@ -1,7 +1,7 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
-import { useQuery } from 'react-query';
-import { getIssues } from '../../api';
+import { useGetIssuesQuery } from '../../api';
 import { IssuePriority } from '../../components/issues/issuePriority';
 import { IssueStatus } from '../../components/issues/IssueStatus';
 import Layout from '../../components/layout';
@@ -27,7 +27,25 @@ const columns = [
 ];
 
 export default function IssuesPage() {
-  const result = useQuery(['issues'], () => getIssues());
+  const router = useRouter();
+
+  const pageNumber = isNaN(Number(router.query.page))
+    ? undefined
+    : Number(router.query.page);
+  const pageSize = isNaN(Number(router.query.size))
+    ? undefined
+    : Number(router.query.size);
+  const pageSort =
+    typeof router.query.sort === 'string'
+      ? [router.query.sort]
+      : router.query.sort;
+  const page = {
+    page: pageNumber,
+    size: pageSize,
+    sort: pageSort,
+  };
+
+  const result = useGetIssuesQuery(page);
 
   if (result.isLoading) {
     return <span>Loading...</span>;

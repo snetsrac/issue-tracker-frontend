@@ -1,16 +1,17 @@
 import { BellIcon, PencilIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
-import { useQuery } from 'react-query';
-import { getIssue } from '../../api';
-import Layout from '../../components/layout';
-import { IssueAside } from '../../components/issues/IssueAside';
+import { useGetIssueQuery } from '../../../api';
+import Layout from '../../../components/layout';
+import { IssueAside } from '../../../components/issues/IssueAside';
+import Link from 'next/link';
+import IssueMeta from '../../../components/issues/IssueMeta';
 
 export default function IssuePage() {
   const router = useRouter();
-  const id = router.query.id;
+  const id = router.query.id as string;
 
-  const result = useQuery(['issue', id], () => getIssue(id as string));
+  const result = useGetIssueQuery(id);
 
   if (result.isLoading) {
     return <span>Loading...</span>;
@@ -39,28 +40,18 @@ export default function IssuePage() {
                 <h1 className='text-2xl font-bold text-gray-900'>
                   {issue.title}
                 </h1>
-                <p className='mt-2 text-sm text-gray-500'>
-                  #{issue.id} opened by{' '}
-                  <a href='#' className='font-medium text-gray-900'>
-                    Hilary Mahy
-                  </a>{' '}
-                  in{' '}
-                  <a href='#' className='font-medium text-gray-900'>
-                    Customer Portal
-                  </a>
-                </p>
+                <IssueMeta issue={issue} />
               </div>
               <div className='mt-4 flex space-x-3 md:mt-0'>
-                <button
-                  type='button'
-                  className='inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2'
-                >
-                  <PencilIcon
-                    className='-ml-1 mr-2 h-5 w-5 text-gray-400'
-                    aria-hidden='true'
-                  />
-                  <span>Edit</span>
-                </button>
+                <Link href={`/issues/${id}/edit`}>
+                  <a className='inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2'>
+                    <PencilIcon
+                      className='-ml-1 mr-2 h-5 w-5 text-gray-400'
+                      aria-hidden='true'
+                    />
+                    <span>Edit</span>
+                  </a>
+                </Link>
                 <button
                   type='button'
                   className='inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2'
