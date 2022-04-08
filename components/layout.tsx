@@ -15,25 +15,25 @@ type LayoutProps = {
 };
 
 const navigation = [
-  { name: 'Dashboard', icon: HomeIcon, href: '/', current: true },
-  { name: 'Team', icon: UsersIcon, href: '/team', count: 3, current: false },
-  {
-    name: 'Projects',
-    icon: FolderIcon,
-    href: '/projects',
-    count: 4,
-    current: false,
-  },
-  { name: 'My Issues', icon: ViewListIcon, href: '/issues', current: false },
+  { name: 'Dashboard', icon: HomeIcon, href: '/issues', current: true },
+  // { name: 'Team', icon: UsersIcon, href: '/team', count: 3, current: false },
+  // {
+  //   name: 'Projects',
+  //   icon: FolderIcon,
+  //   href: '/projects',
+  //   count: 4,
+  //   current: false,
+  // },
+  // { name: 'My Issues', icon: ViewListIcon, href: '/issues', current: false },
 ];
 
 export type Navigation = typeof navigation;
 
-const projects = [
-  { id: 1, name: 'GraphQL API', href: '/projects/1' },
-  { id: 2, name: 'iOS App', href: '/projects/2' },
-  { id: 3, name: 'Marketing Site Redesign', href: '/projects/3' },
-  { id: 4, name: 'Customer Portal', href: '/projects/4' },
+const projects: { id: number; name: string; href: string }[] = [
+  // { id: 1, name: 'GraphQL API', href: '/projects/1' },
+  // { id: 2, name: 'iOS App', href: '/projects/2' },
+  // { id: 3, name: 'Marketing Site Redesign', href: '/projects/3' },
+  // { id: 4, name: 'Customer Portal', href: '/projects/4' },
 ];
 
 export type Projects = typeof projects;

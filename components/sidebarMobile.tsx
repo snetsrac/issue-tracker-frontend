@@ -99,20 +99,22 @@ export default function SidebarMobile({
                     </Link>
                   ))}
                 </div>
-                <div className='mt-10'>
-                  <p className='px-2 text-xs font-semibold uppercase tracking-wider text-gray-400'>
-                    Projects
-                  </p>
-                  <div className='mt-2 space-y-1'>
-                    {projects.map((project) => (
-                      <Link href={project.href} key={project.href}>
-                        <a className='flex items-center rounded-md px-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white'>
-                          <span className='truncate'>{project.name}</span>
-                        </a>
-                      </Link>
-                    ))}
+                {projects !== undefined && projects.length > 0 && (
+                  <div className='mt-10'>
+                    <p className='px-2 text-xs font-semibold uppercase tracking-wider text-gray-400'>
+                      Projects
+                    </p>
+                    <div className='mt-2 space-y-1'>
+                      {projects.map((project) => (
+                        <Link href={project.href} key={project.href}>
+                          <a className='flex items-center rounded-md px-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white'>
+                            <span className='truncate'>{project.name}</span>
+                          </a>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </nav>
             </div>
           </div>
