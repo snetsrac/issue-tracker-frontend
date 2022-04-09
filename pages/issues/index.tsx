@@ -1,10 +1,12 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import { ReactElement } from 'react';
 import { useGetIssuesQuery } from '../../api';
 import { IssuePriority } from '../../components/issues/issuePriority';
 import { IssueStatus } from '../../components/issues/IssueStatus';
 import Layout from '../../components/layout';
+import Pagination, {
+  usePagination,
+} from '../../components/pagination/pagination';
 import Table from '../../components/table';
 
 const columns = [
@@ -27,25 +29,9 @@ const columns = [
 ];
 
 export default function IssuesPage() {
-  const router = useRouter();
+  const { pageQuery } = usePagination();
 
-  const pageNumber = isNaN(Number(router.query.page))
-    ? undefined
-    : Number(router.query.page);
-  const pageSize = isNaN(Number(router.query.size))
-    ? undefined
-    : Number(router.query.size);
-  const pageSort =
-    typeof router.query.sort === 'string'
-      ? [router.query.sort]
-      : router.query.sort;
-  const page = {
-    page: pageNumber,
-    size: pageSize,
-    sort: pageSort,
-  };
-
-  const result = useGetIssuesQuery(page);
+  const result = useGetIssuesQuery(pageQuery);
 
   if (result.isLoading) {
     return <span>Loading...</span>;
@@ -95,6 +81,7 @@ export default function IssuesPage() {
         </div>
       </div>
       <Table columns={columns} data={issues} />
+      <Pagination pageQuery={pageQuery} pageMetadata={result.data.page} />
     </div>
   );
 }

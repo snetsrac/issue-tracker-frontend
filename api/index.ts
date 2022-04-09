@@ -1,12 +1,7 @@
 import axios from 'axios';
+import { PageQuery } from '../components/pagination/pagination';
 
 export * from './issues';
-
-export type Page = {
-  page?: number;
-  size?: number;
-  sort?: string[];
-};
 
 export type PageMetadata = {
   size: number;
@@ -23,20 +18,28 @@ export const api = axios.create({
   },
 });
 
-export function assemblePageParams({ page, size, sort }: Page) {
+export function assemblePageParams({ page, size, sort }: PageQuery) {
   const params = new URLSearchParams();
 
   if (page !== undefined) {
-    params.append('page', page.toString());
+    // Subtract 1 from the page query because server pages are 0-indexed and
+    // client pages are 1 - indexed
+    params.set('page', (page - 1).toString());
   }
 
   if (size !== undefined) {
-    params.append('size', size.toString());
+    params.set('size', size.toString());
   }
 
-  sort?.forEach((s) => {
-    params.append('sort', s);
-  });
+  if (sort !== undefined) {
+    if (typeof sort === 'string') {
+      params.set('sort', sort);
+    } else {
+      sort.forEach((s) => {
+        params.append('sort', s);
+      });
+    }
+  }
 
   return params;
 }

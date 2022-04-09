@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api, assemblePageParams, Page, PageMetadata } from '.';
+import { api, assemblePageParams, PageMetadata } from '.';
+import { PageQuery } from '../components/pagination/pagination';
 
 export type Issue = {
   id: number;
@@ -32,19 +33,20 @@ export enum IssuePriority {
 
 export type Issues = {
   content: Issue[];
-} & PageMetadata;
+  page: PageMetadata;
+};
 
-export function useGetIssuesQuery(page: Page) {
+export function useGetIssuesQuery(page: PageQuery) {
   const params = assemblePageParams(page);
 
-  const getIssues = async (page: Page) => {
+  const getIssues = async () => {
     const response = await api.get<Issues>('/issues', {
       params: params,
     });
     return response.data;
   };
 
-  return useQuery(['issues', page], () => getIssues(page), {
+  return useQuery(['issues', page], () => getIssues(), {
     keepPreviousData: true,
   });
 }
