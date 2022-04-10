@@ -15,7 +15,7 @@ type LayoutProps = {
 };
 
 const navigation = [
-  { name: 'Dashboard', icon: HomeIcon, href: '/issues', current: true },
+  // { name: 'Dashboard', icon: HomeIcon, href: '/', current: true },
   // { name: 'Team', icon: UsersIcon, href: '/team', count: 3, current: false },
   // {
   //   name: 'Projects',
@@ -24,7 +24,7 @@ const navigation = [
   //   count: 4,
   //   current: false,
   // },
-  // { name: 'My Issues', icon: ViewListIcon, href: '/issues', current: false },
+  { name: 'Issues', icon: ViewListIcon, href: '/issues', current: true },
 ];
 
 export type Navigation = typeof navigation;

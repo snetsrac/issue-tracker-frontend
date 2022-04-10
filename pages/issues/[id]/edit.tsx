@@ -49,7 +49,7 @@ export default function IssueUpdatePage() {
           issue.description.length > 0 ? (
             <IssueMeta issue={issue} />
           ) : (
-            'Update an issue.'
+            'Update an existing issue.'
           )
         }
         onSubmit={updateIssue.mutate}

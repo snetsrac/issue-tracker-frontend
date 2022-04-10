@@ -11,8 +11,16 @@ import Table from '../../components/table';
 
 const columns = [
   {
+    accessor: 'id',
+    title: '#',
+    bold: true,
+    limitWidth: true,
+    sortable: true,
+  },
+  {
     accessor: 'title',
     title: 'Title',
+    bold: true,
     sortable: true,
   },
   {
@@ -23,11 +31,13 @@ const columns = [
   {
     accessor: 'status',
     title: 'Status',
+    limitWidth: true,
     sortable: true,
   },
   {
     accessor: 'priority',
     title: 'Priority',
+    limitWidth: true,
     sortable: true,
   },
 ];
@@ -57,7 +67,7 @@ export default function IssuesPage() {
       id: issue.id,
       title: (
         <Link href={`/issues/${issue.id}`}>
-          <a className='font-medium text-gray-900'>{issue.title}</a>
+          <a>{issue.title}</a>
         </Link>
       ),
       description: issue.description,
@@ -72,8 +82,7 @@ export default function IssuesPage() {
         <div className='sm:flex-auto'>
           <h1 className='text-xl font-semibold text-gray-900'>Issues</h1>
           <p className='mt-2 text-sm text-gray-700'>
-            A list of all the issues in the database (for now) including their
-            title and description.
+            A list of all the issues in the database.
           </p>
         </div>
         <div className='mt-4 sm:mt-0 sm:ml-16 sm:flex-none'>

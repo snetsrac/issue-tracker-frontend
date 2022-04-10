@@ -75,5 +75,9 @@ export function IssueStatus({ status }: { status: Issue['status'] }) {
       break;
   }
 
-  return <div className='flex items-center space-x-2'>{content}</div>;
+  return (
+    <div className='flex items-center space-x-2 md:whitespace-nowrap'>
+      {content}
+    </div>
+  );
 }

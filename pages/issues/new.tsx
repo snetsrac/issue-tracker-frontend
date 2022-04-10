@@ -25,8 +25,8 @@ export default function IssueCreatePage() {
   return (
     <div className='mx-auto max-w-xl px-4 sm:px-6 lg:px-8'>
       <Form
-        title='Create New Issue'
-        description='Open a new issue.'
+        title='Create Issue'
+        description='Open a new issue ticket.'
         onSubmit={createIssue.mutate}
         disabled={createIssue.isLoading}
       >

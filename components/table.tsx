@@ -7,6 +7,7 @@ type TableColumn = {
   title: string;
   hideTitle?: boolean;
   bold?: boolean;
+  limitWidth?: boolean;
   sortable?: boolean;
 };
 
@@ -101,7 +102,11 @@ export default function Table({ columns, data, pageQuery }: TableProps) {
                       <td
                         key={column.accessor}
                         className={classNames(
-                          'max-w-0 truncate py-4 text-sm text-gray-500',
+                          column.limitWidth ? 'w-0' : 'max-w-0 truncate',
+                          'py-4 text-sm',
+                          column.bold
+                            ? 'font-medium text-gray-900'
+                            : 'text-gray-500',
                           columnPadding(columns.length, i)
                         )}
                       >
