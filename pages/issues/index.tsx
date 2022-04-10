@@ -13,18 +13,22 @@ const columns = [
   {
     accessor: 'title',
     title: 'Title',
+    sortable: true,
   },
   {
     accessor: 'description',
     title: 'Description',
+    sortable: true,
   },
   {
     accessor: 'status',
     title: 'Status',
+    sortable: true,
   },
   {
     accessor: 'priority',
     title: 'Priority',
+    sortable: true,
   },
 ];
 
@@ -80,7 +84,7 @@ export default function IssuesPage() {
           </Link>
         </div>
       </div>
-      <Table columns={columns} data={issues} />
+      <Table columns={columns} data={issues} pageQuery={pageQuery} />
       <Pagination pageQuery={pageQuery} pageMetadata={result.data.page} />
     </div>
   );

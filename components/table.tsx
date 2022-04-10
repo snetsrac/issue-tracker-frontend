@@ -1,8 +1,13 @@
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid';
+import Link from 'next/link';
+import { PageQuery } from './pagination/pagination';
+
 type TableColumn = {
   accessor: string;
   title: string;
   hideTitle?: boolean;
   bold?: boolean;
+  sortable?: boolean;
 };
 
 type TableData = {
@@ -13,6 +18,7 @@ type TableData = {
 type TableProps = {
   columns: TableColumn[];
   data: TableData[];
+  pageQuery: PageQuery;
 };
 
 function classNames(...classes: string[]) {
@@ -33,7 +39,7 @@ function columnPadding(length: number, i: number) {
   return padding;
 }
 
-export default function Table({ columns, data }: TableProps) {
+export default function Table({ columns, data, pageQuery }: TableProps) {
   return (
     <div className='mt-8 flex flex-col'>
       <div className='-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8'>
@@ -51,7 +57,39 @@ export default function Table({ columns, data }: TableProps) {
                         columnPadding(columns.length, i)
                       )}
                     >
-                      {column.title}
+                      {column.sortable ? (
+                        <Link href={pageQuery.toggleSort(column.accessor)}>
+                          <a className='group inline-flex'>
+                            {column.title}
+                            {pageQuery.sort?.property === column.accessor &&
+                            pageQuery.sort.direction === 'asc' ? (
+                              <span className='ml-2 flex-none rounded bg-gray-200 text-gray-900 group-hover:bg-gray-300'>
+                                <ChevronDownIcon
+                                  className='h-5 w-5'
+                                  aria-hidden='true'
+                                />
+                              </span>
+                            ) : pageQuery.sort?.property === column.accessor &&
+                              pageQuery.sort.direction === 'desc' ? (
+                              <span className='ml-2 flex-none rounded bg-gray-200 text-gray-900 group-hover:bg-gray-300'>
+                                <ChevronUpIcon
+                                  className='h-5 w-5'
+                                  aria-hidden='true'
+                                />
+                              </span>
+                            ) : (
+                              <span className='invisible ml-2 flex-none rounded text-gray-400 group-hover:visible group-focus:visible'>
+                                <ChevronDownIcon
+                                  className='h-5 w-5'
+                                  aria-hidden='true'
+                                />
+                              </span>
+                            )}
+                          </a>
+                        </Link>
+                      ) : (
+                        column.title
+                      )}
                     </th>
                   ))}
                 </tr>

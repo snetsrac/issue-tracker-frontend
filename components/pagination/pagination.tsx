@@ -8,7 +8,12 @@ import PaginationMetadata from './paginationMetadata';
 export type PageQuery = {
   page: number;
   size?: number;
-  sort?: string | string[];
+  sort?: {
+    property: string;
+    direction: 'asc' | 'desc';
+    toString: () => string;
+  };
+  toggleSort: (accessor: string) => string | object;
 };
 
 type PaginationProps = {
@@ -52,6 +57,7 @@ export default function Pagination({
             {pageQuery.page > 4 && <PaginationButtonDesktop />}
             {nearby.map((href) => (
               <PaginationButtonDesktop
+                key={href.query.page}
                 href={href}
                 current={pageQuery.page === href.query.page}
               />
@@ -72,8 +78,30 @@ export default function Pagination({
 }
 
 export function usePagination() {
-  const { query } = useRouter();
-  const pageQuery: PageQuery = { page: 0 };
+  const { pathname, query } = useRouter();
+  const pageQuery: PageQuery = {
+    page: 1,
+    toggleSort: function (this, accessor: string) {
+      // Start on page 1 after sorting
+      const newQuery: any = { page: 1 };
+
+      if (this.size !== undefined) {
+        newQuery.size = this.size;
+      }
+
+      if (
+        this.sort !== undefined &&
+        this.sort.property === accessor &&
+        this.sort.direction === 'asc'
+      ) {
+        newQuery.sort = accessor + ',desc';
+      } else {
+        newQuery.sort = accessor + ',asc';
+      }
+
+      return { pathname, query: newQuery };
+    },
+  };
 
   if (!isNaN(Number(query.page))) {
     pageQuery.page = Number(query.page);
@@ -83,12 +111,15 @@ export function usePagination() {
     pageQuery.size = Number(query.size);
   }
 
-  if (typeof query.sort === 'string') {
-    if (query.sort.length > 0) {
-      pageQuery.sort = query.sort;
-    }
-  } else if (query.sort !== undefined) {
-    pageQuery.sort = query.sort.filter((s) => s.length > 0);
+  if (query.sort !== undefined) {
+    const sort = typeof query.sort === 'string' ? query.sort : query.sort[0];
+    pageQuery.sort = {
+      property: sort.split(',')[0],
+      direction: sort.split(',')[1] as 'asc' | 'desc',
+      toString: function (this) {
+        return this.property + ',' + this.direction;
+      },
+    };
   }
 
   return {
@@ -100,9 +131,19 @@ function getPageRefs(pageQuery: PageQuery, pageMetadata: PageMetadata) {
   const { pathname } = useRouter();
 
   const newPageHref = (page: number) => {
+    const query: any = { page };
+
+    if (pageQuery.size !== undefined) {
+      query.size = pageQuery.size;
+    }
+
+    if (pageQuery.sort !== undefined) {
+      query.sort = pageQuery.sort.toString();
+    }
+
     return {
       pathname,
-      query: { ...pageQuery, page },
+      query,
     };
   };
 

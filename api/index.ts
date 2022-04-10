@@ -8,6 +8,7 @@ export type PageMetadata = {
   number: number;
   totalElements: number;
   totalPages: number;
+  sort: string[];
 };
 
 export const api = axios.create({
@@ -32,13 +33,7 @@ export function assemblePageParams({ page, size, sort }: PageQuery) {
   }
 
   if (sort !== undefined) {
-    if (typeof sort === 'string') {
-      params.set('sort', sort);
-    } else {
-      sort.forEach((s) => {
-        params.append('sort', s);
-      });
-    }
+    params.set('sort', sort.toString());
   }
 
   return params;
