@@ -5,7 +5,7 @@ import {
   ViewListIcon,
 } from '@heroicons/react/outline';
 import Head from 'next/head';
-import { ReactNode, useState } from 'react';
+import { ComponentType, ReactNode, useState } from 'react';
 import Searchbar from './searchbar';
 import SidebarDesktop from './sidebarDesktop';
 import SidebarMobile from './sidebarMobile';
@@ -15,16 +15,20 @@ type LayoutProps = {
 };
 
 const navigation = [
-  // { name: 'Dashboard', icon: HomeIcon, href: '/', current: true },
-  // { name: 'Team', icon: UsersIcon, href: '/team', count: 3, current: false },
+  { name: 'Dashboard', icon: HomeIcon, href: '/' },
+  // { name: 'Team', icon: UsersIcon, href: '/team', count: 3 },
   // {
   //   name: 'Projects',
   //   icon: FolderIcon,
   //   href: '/projects',
   //   count: 4,
-  //   current: false,
   // },
-  { name: 'Issues', icon: ViewListIcon, href: '/issues', current: true },
+  {
+    name: 'Issues',
+    icon: ViewListIcon,
+    href: '/issues',
+    authorization: 'read:issues',
+  },
 ];
 
 export type Navigation = typeof navigation;
@@ -63,5 +67,13 @@ export default function Layout({ children }: LayoutProps) {
         </div>
       </div>
     </>
+  );
+}
+
+export function withLayout(PageComponent: any): ComponentType<object> {
+  return () => (
+    <Layout>
+      <PageComponent />
+    </Layout>
   );
 }

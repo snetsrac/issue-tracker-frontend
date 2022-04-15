@@ -2,8 +2,10 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction } from 'react';
 import { Navigation, Projects } from './layout';
+import UserPanelMobile from './userPanelMobile';
 
 type SidebarMobileProps = {
   isOpen: boolean;
@@ -18,6 +20,8 @@ export default function SidebarMobile({
   navigation,
   projects,
 }: SidebarMobileProps) {
+  const router = useRouter();
+
   return (
     <Transition show={isOpen} as={Fragment}>
       <Dialog
@@ -45,7 +49,7 @@ export default function SidebarMobile({
           leaveFrom='translate-x-0'
           leaveTo='-translate-x-full'
         >
-          <div className='relative flex w-full max-w-xs flex-1 flex-col bg-gray-800 pt-5 pb-4'>
+          <div className='relative flex w-full max-w-xs flex-1 flex-col bg-gray-800 pt-5'>
             <Transition.Child
               as={Fragment}
               enter='ease-in-out duration-300'
@@ -76,17 +80,19 @@ export default function SidebarMobile({
                     <Link href={item.href} key={item.href}>
                       <a
                         className={
-                          (item.current
+                          (router.pathname === item.href
                             ? 'bg-gray-900 text-white'
                             : 'text-gray-300 hover:bg-gray-700 hover:text-white') +
                           ' ' +
                           'group flex items-center rounded-md px-2 py-2 text-base font-medium'
                         }
-                        aria-current={item.current ? 'page' : undefined}
+                        aria-current={
+                          router.pathname === item.href ? 'page' : undefined
+                        }
                       >
                         <item.icon
                           className={
-                            (item.current
+                            (router.pathname === item.href
                               ? 'text-gary-300'
                               : 'text-gray-400 group-hover:text-gray-300') +
                             ' ' +
@@ -117,6 +123,7 @@ export default function SidebarMobile({
                 )}
               </nav>
             </div>
+            <UserPanelMobile />
           </div>
         </Transition.Child>
         <div className='w-14 flex-shrink-0' aria-hidden='true'>

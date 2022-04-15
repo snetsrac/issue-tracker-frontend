@@ -1,13 +1,13 @@
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { BellIcon, PencilIcon } from '@heroicons/react/solid';
-import { useRouter } from 'next/router';
-import { ReactElement } from 'react';
-import { useGetIssueQuery } from '../../../api';
-import Layout from '../../../components/layout';
-import { IssueAside } from '../../../components/issues/IssueAside';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useGetIssueQuery } from '../../../api/issues';
+import { IssueAside } from '../../../components/issues/IssueAside';
 import IssueMeta from '../../../components/issues/IssueMeta';
+import { withLayout } from '../../../components/layout';
 
-export default function IssuePage() {
+function IssuePage() {
   const router = useRouter();
   const id = router.query.id as string;
 
@@ -87,6 +87,4 @@ export default function IssuePage() {
   );
 }
 
-IssuePage.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
-};
+export default withAuthenticationRequired(withLayout(IssuePage));

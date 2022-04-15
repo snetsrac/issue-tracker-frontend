@@ -1,13 +1,18 @@
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { useRouter } from 'next/router';
-import { ReactElement, useState } from 'react';
-import { IssueNew, IssuePriority, useCreateIssueMutation } from '../../api';
+import { useState } from 'react';
+import {
+  IssueNew,
+  IssuePriority,
+  useCreateIssueMutation,
+} from '../../api/issues';
 import Form from '../../components/forms/form';
 import Select from '../../components/forms/select';
 import Text from '../../components/forms/text';
 import TextArea from '../../components/forms/textArea';
-import Layout from '../../components/layout';
+import { withLayout } from '../../components/layout';
 
-export default function IssueCreatePage() {
+function IssueCreatePage() {
   const router = useRouter();
 
   const [issue, setIssue] = useState<IssueNew>({
@@ -27,7 +32,7 @@ export default function IssueCreatePage() {
       <Form
         title='Create Issue'
         description='Open a new issue ticket.'
-        onSubmit={createIssue.mutate}
+        onSubmit={() => createIssue.mutate(issue)}
         disabled={createIssue.isLoading}
       >
         <Text
@@ -61,6 +66,4 @@ export default function IssueCreatePage() {
   );
 }
 
-IssueCreatePage.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
-};
+export default withAuthenticationRequired(withLayout(IssueCreatePage));

@@ -1,20 +1,21 @@
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { useRouter } from 'next/router';
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
 import {
   Issue,
   IssuePriority,
   IssueStatus,
   useGetIssueQuery,
   useUpdateIssueMutation,
-} from '../../../api';
+} from '../../../api/issues';
 import Form from '../../../components/forms/form';
 import Select from '../../../components/forms/select';
-import TextArea from '../../../components/forms/textArea';
 import Text from '../../../components/forms/text';
+import TextArea from '../../../components/forms/textArea';
 import IssueMeta from '../../../components/issues/IssueMeta';
-import Layout from '../../../components/layout';
+import { withLayout } from '../../../components/layout';
 
-export default function IssueUpdatePage() {
+function IssueUpdatePage() {
   const router = useRouter();
   const id = router.query.id as string;
 
@@ -52,7 +53,7 @@ export default function IssueUpdatePage() {
             'Update an existing issue.'
           )
         }
-        onSubmit={updateIssue.mutate}
+        onSubmit={() => updateIssue.mutate(issue)}
         disabled={getIssue.isLoading || updateIssue.isLoading}
       >
         <Text
@@ -96,6 +97,4 @@ export default function IssueUpdatePage() {
   );
 }
 
-IssueUpdatePage.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
-};
+export default withAuthenticationRequired(withLayout(IssueUpdatePage));

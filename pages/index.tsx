@@ -1,9 +1,8 @@
-import type { ReactElement } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import Layout from '../components/layout';
+import { withLayout } from '../components/layout';
 
-export default function Dashboard() {
+function Dashboard() {
   return (
     <div className='flex min-h-screen flex-col items-center justify-center py-2'>
       <Head>
@@ -84,6 +83,4 @@ export default function Dashboard() {
   );
 }
 
-Dashboard.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
-};
+export default withLayout(Dashboard);

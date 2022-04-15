@@ -1,5 +1,4 @@
 import { useRouter } from 'next/router';
-import { PageMetadata } from '../../api';
 import PaginationButtonDesktop from './paginationButtonDesktop';
 import PaginationButtonDesktopEnd from './paginationButtonDesktopEnd';
 import PaginationButtonMobile from './paginationButtonMobile';
@@ -14,6 +13,16 @@ export type PageQuery = {
     toString: () => string;
   };
   toggleSort: (accessor: string) => string | object;
+  toURLSearchParams: () => URLSearchParams;
+  toString: () => string;
+};
+
+export type PageMetadata = {
+  size: number;
+  number: number;
+  totalElements: number;
+  totalPages: number;
+  sort: string[];
 };
 
 type PaginationProps = {
@@ -25,7 +34,7 @@ export default function Pagination({
   pageQuery,
   pageMetadata,
 }: PaginationProps) {
-  const { previous, next, first, last, nearby } = getPageRefs(
+  const { previous, next, first, last, nearby } = getPageLinks(
     pageQuery,
     pageMetadata
   );
@@ -101,6 +110,28 @@ export function usePagination() {
 
       return { pathname, query: newQuery };
     },
+    toURLSearchParams: function (this) {
+      const params = new URLSearchParams();
+
+      if (this.page !== undefined) {
+        // Subtract 1 from the page query because server pages are 0-indexed and
+        // client pages are 1 - indexed
+        params.set('page', (this.page - 1).toString());
+      }
+
+      if (this.size !== undefined) {
+        params.set('size', this.size.toString());
+      }
+
+      if (this.sort !== undefined) {
+        params.set('sort', this.sort.toString());
+      }
+
+      return params;
+    },
+    toString: function (this) {
+      return this.toURLSearchParams().toString();
+    },
   };
 
   if (!isNaN(Number(query.page))) {
@@ -127,7 +158,7 @@ export function usePagination() {
   };
 }
 
-function getPageRefs(pageQuery: PageQuery, pageMetadata: PageMetadata) {
+function getPageLinks(pageQuery: PageQuery, pageMetadata: PageMetadata) {
   const { pathname } = useRouter();
 
   const newPageHref = (page: number) => {

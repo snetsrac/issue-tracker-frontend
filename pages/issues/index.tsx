@@ -1,9 +1,9 @@
+import { withAuthenticationRequired } from '@auth0/auth0-react';
 import Link from 'next/link';
-import { ReactElement } from 'react';
-import { useGetIssuesQuery } from '../../api';
+import { useGetIssuesQuery } from '../../api/issues';
 import { IssuePriority } from '../../components/issues/issuePriority';
 import { IssueStatus } from '../../components/issues/IssueStatus';
-import Layout from '../../components/layout';
+import { withLayout } from '../../components/layout';
 import Pagination, {
   usePagination,
 } from '../../components/pagination/pagination';
@@ -42,27 +42,19 @@ const columns = [
   },
 ];
 
-export default function IssuesPage() {
+function IssuesPage() {
   const { pageQuery } = usePagination();
+  const { isLoading, isError, data, error } = useGetIssuesQuery(pageQuery);
 
-  const result = useGetIssuesQuery(pageQuery);
-
-  if (result.isLoading) {
+  if (isLoading) {
     return <span>Loading...</span>;
   }
 
-  if (result.isError || result.data === undefined) {
-    return (
-      <span>
-        Error:{' '}
-        {result.error instanceof Error
-          ? result.error.message
-          : 'Unknown error.'}
-      </span>
-    );
+  if (isError || data === undefined) {
+    return <span>Error: {error ? error.message : 'Unknown error.'}</span>;
   }
 
-  const issues = result.data.content.map((issue) => {
+  const issues = data.content.map((issue) => {
     return {
       id: issue.id,
       title: (
@@ -94,11 +86,9 @@ export default function IssuesPage() {
         </div>
       </div>
       <Table columns={columns} data={issues} pageQuery={pageQuery} />
-      <Pagination pageQuery={pageQuery} pageMetadata={result.data.page} />
+      <Pagination pageQuery={pageQuery} pageMetadata={data.page} />
     </div>
   );
 }
 
-IssuesPage.getLayout = (page: ReactElement) => {
-  return <Layout>{page}</Layout>;
-};
+export default withAuthenticationRequired(withLayout(IssuesPage));

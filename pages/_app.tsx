@@ -1,34 +1,44 @@
 import '../styles/globals.css';
-import { ReactElement, ReactNode, useState } from 'react';
-import type { NextPage } from 'next';
 import App, { AppContext, AppProps } from 'next/app';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { AppState, Auth0Provider } from '@auth0/auth0-react';
+import Router from 'next/router';
 
-export type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
+const onRedirectCallback = (appState: AppState) => {
+  Router.replace(appState?.returnTo || '/');
 };
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
-
-export default function IssueTrackerApp({
-  Component,
-  pageProps,
-}: AppPropsWithLayout) {
-  const [queryClient] = useState(() => new QueryClient());
-
-  // Use the layout defined at the page level, if available
-  const getLayout = Component.getLayout ?? ((page) => page);
-
+export default function IssueTrackerApp({ Component, pageProps }: AppProps) {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        {getLayout(<Component {...pageProps} />)}
-      </Hydrate>
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <Auth0Provider
+      domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN as string}
+      clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENTID as string}
+      redirectUri={
+        typeof window !== 'undefined' ? window.location.origin : undefined
+      }
+      onRedirectCallback={onRedirectCallback}
+      audience={process.env.NEXT_PUBLIC_AUTH0_AUDIENCE}
+      scope='openid profile email'
+    >
+      <QueryClientProvider
+        client={
+          new QueryClient({
+            defaultOptions: {
+              queries: {
+                retry: false,
+                staleTime: 5 * 60 * 1000,
+              },
+            },
+          })
+        }
+      >
+        <Hydrate state={pageProps.dehydratedState}>
+          <Component {...pageProps} />
+        </Hydrate>
+        <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
+      </QueryClientProvider>
+    </Auth0Provider>
   );
 }
 

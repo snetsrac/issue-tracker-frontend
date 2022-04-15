@@ -1,6 +1,6 @@
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { api, assemblePageParams, PageMetadata } from '.';
-import { PageQuery } from '../components/pagination/pagination';
+import { useQueryClient } from 'react-query';
+import { PageMetadata, PageQuery } from '../components/pagination/pagination';
+import { useApiMutation, useApiQuery } from './useApi';
 
 export type Issue = {
   id: number;
@@ -36,60 +36,51 @@ export type Issues = {
   page: PageMetadata;
 };
 
-export function useGetIssuesQuery(page: PageQuery) {
-  const params = assemblePageParams(page);
-
-  const getIssues = async () => {
-    const response = await api.get<Issues>('/issues', {
-      params: params,
-    });
-    return response.data;
-  };
-
-  return useQuery(['issues', page], () => getIssues(), {
-    keepPreviousData: true,
+export function useGetIssuesQuery(pageQuery: PageQuery) {
+  return useApiQuery<Issues>({
+    path: '/issues',
+    queryKey: ['issues', pageQuery.toString()],
+    pageQuery,
+    queryOptions: { keepPreviousData: true },
   });
 }
 
 export function useGetIssueQuery(id: string, runOnce?: boolean) {
-  const getIssue = async (id: string) => {
-    const response = await api.get<Issue>(`issues/${id}`);
-    return response.data;
-  };
-
-  return useQuery(['issue', id], () => getIssue(id), {
-    staleTime: runOnce ? Infinity : undefined,
+  return useApiQuery<Issue>({
+    path: `/issues/${id}`,
+    queryKey: ['issues', id],
+    queryOptions: { staleTime: runOnce ? Infinity : undefined },
   });
 }
 
 export function useCreateIssueMutation(issue: IssueNew) {
   const queryClient = useQueryClient();
-
-  const postIssue = async (issue: IssueNew) => {
-    const response = await api.post<Issue>('issues', issue);
-    return response.data;
-  };
-
-  return useMutation(() => postIssue(issue), {
-    onSuccess: (newIssue) => {
-      queryClient.invalidateQueries(['issues']);
-      queryClient.setQueryData(['issue', newIssue.id.toString()], newIssue);
+  return useApiMutation<Issue, IssueNew>({
+    path: '/issues',
+    queryKey: ['issues'],
+    body: issue,
+    fetchOptions: { method: 'POST' },
+    mutationOptions: {
+      onSuccess: (newIssue) => {
+        queryClient.invalidateQueries(['issues']);
+        queryClient.setQueryData(['issue', newIssue.id.toString()], newIssue);
+      },
     },
   });
 }
 
 export function useUpdateIssueMutation(id: string, issue: Issue) {
   const queryClient = useQueryClient();
-
-  const putIssue = async (issue: Issue) => {
-    const response = await api.put<Issue>(`issues/${id}`, issue);
-    return response.data;
-  };
-
-  return useMutation(() => putIssue(issue), {
-    onSuccess: (updatedIssue) => {
-      queryClient.invalidateQueries(['issues']);
-      queryClient.setQueryData(['issue', id], updatedIssue);
+  return useApiMutation<Issue, Issue>({
+    path: `/issues/${id}`,
+    queryKey: ['issues', id],
+    body: issue,
+    fetchOptions: { method: 'PUT' },
+    mutationOptions: {
+      onSuccess: (updatedIssue) => {
+        queryClient.invalidateQueries(['issues']);
+        queryClient.setQueryData(['issue', id], updatedIssue);
+      },
     },
   });
 }

@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Navigation, Projects } from './layout';
+import UserPanelDesktop from './userPanelDesktop';
 
 type SidebarDesktopProps = {
   navigation: Navigation;
@@ -11,6 +13,8 @@ export default function SidebarDesktop({
   navigation,
   projects,
 }: SidebarDesktopProps) {
+  const router = useRouter();
+
   return (
     <div className='hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64'>
       <div className='flex min-h-0 flex-1 flex-col'>
@@ -27,17 +31,19 @@ export default function SidebarDesktop({
                 <Link href={item.href} key={item.href}>
                   <a
                     className={
-                      (item.current
+                      (router.pathname === item.href
                         ? 'bg-gray-900 text-white'
                         : 'text-gray-300 hover:bg-gray-700 hover:text-white') +
                       ' ' +
                       'group flex items-center rounded-md px-2 py-2 text-sm font-medium'
                     }
-                    aria-current={item.current ? 'page' : undefined}
+                    aria-current={
+                      router.pathname === item.href ? 'page' : undefined
+                    }
                   >
                     <item.icon
                       className={
-                        (item.current
+                        (router.pathname === item.href
                           ? 'text-gray-300'
                           : 'text-gray-400 group-hover:text-gray-300') +
                         ' ' +
@@ -68,6 +74,7 @@ export default function SidebarDesktop({
             )}
           </nav>
         </div>
+        <UserPanelDesktop />
       </div>
     </div>
   );
