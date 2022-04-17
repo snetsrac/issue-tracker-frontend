@@ -4,6 +4,7 @@ import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { AppState, Auth0Provider } from '@auth0/auth0-react';
 import Router from 'next/router';
+import AppHead from '../components/appHead';
 
 const onRedirectCallback = (appState: AppState) => {
   Router.replace(appState?.returnTo || '/');
@@ -34,6 +35,7 @@ export default function IssueTrackerApp({ Component, pageProps }: AppProps) {
         }
       >
         <Hydrate state={pageProps.dehydratedState}>
+          <AppHead />
           <Component {...pageProps} />
         </Hydrate>
         <ReactQueryDevtools initialIsOpen={false} position='bottom-right' />
