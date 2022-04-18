@@ -34,7 +34,7 @@ export default function Pagination({
   pageQuery,
   pageMetadata,
 }: PaginationProps) {
-  const { previous, next, first, last, nearby } = getPageLinks(
+  const { previous, next, first, last, nearby } = usePageLinks(
     pageQuery,
     pageMetadata
   );
@@ -158,7 +158,7 @@ export function usePagination() {
   };
 }
 
-function getPageLinks(pageQuery: PageQuery, pageMetadata: PageMetadata) {
+function usePageLinks(pageQuery: PageQuery, pageMetadata: PageMetadata) {
   const { pathname } = useRouter();
 
   const newPageHref = (page: number) => {

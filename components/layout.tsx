@@ -69,9 +69,11 @@ export default function Layout({ children }: LayoutProps) {
 }
 
 export function withLayout(PageComponent: any): ComponentType<object> {
-  return () => (
+  const PageWithLayout = () => (
     <Layout>
       <PageComponent />
     </Layout>
   );
+
+  return PageWithLayout;
 }

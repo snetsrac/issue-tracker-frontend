@@ -9,4 +9,7 @@ module.exports = {
       'lh3.googleusercontent.com',
     ],
   },
+  eslint: {
+    dirs: ['pages', 'components', 'api'],
+  },
 };
