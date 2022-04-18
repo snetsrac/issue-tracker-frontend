@@ -8,16 +8,6 @@ import {
 } from 'react-query';
 import { PageQuery } from '../components/pagination/pagination';
 
-type QueryOptions<T> = Omit<
-  UseQueryOptions<T, Error, T>,
-  'queryKey' | 'queryFn'
->;
-
-type MutationOptions<T, V> = Omit<
-  UseMutationOptions<T, Error, V>,
-  'mutationFn'
->;
-
 type UseApiQueryParams<T> = {
   path: string;
   queryKey: string[];
@@ -37,12 +27,6 @@ type UseApiMutationParams<T, V> = {
   scope?: string;
   fetchOptions?: RequestInit;
   mutationOptions?: Omit<UseMutationOptions<T, Error, V>, 'mutationFn'>;
-};
-
-type UseApiState<T> = {
-  error: Error | null;
-  isLoading: boolean;
-  data: T | null;
 };
 
 export function useApiQuery<T>({

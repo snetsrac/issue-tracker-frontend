@@ -30,7 +30,7 @@ function IssueUpdatePage() {
 
   const [isIssueLoaded, setIsIssueLoaded] = useState(false);
 
-  const getIssue = useGetIssueByIdQuery(id, true);
+  const getIssue = useGetIssueByIdQuery(id);
 
   const updateIssue = useUpdateIssueMutation(id, issue);
 

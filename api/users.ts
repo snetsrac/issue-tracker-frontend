@@ -8,22 +8,17 @@ export type User = {
   picture: string;
 };
 
-export function useGetUserByIdQuery(
-  id: string,
-  enabled?: boolean,
-  runOnce?: boolean
-) {
+export function useGetUserByIdQuery(id: string, enabled: boolean = true) {
   return useApiQuery<User>({
     path: `/users/byId/${id}`,
     queryKey: ['users', 'byId', id],
-    queryOptions: { enabled, staleTime: runOnce ? Infinity : undefined },
+    queryOptions: { enabled },
   });
 }
 
-export function useGetUserByUsernameQuery(username: string, runOnce?: boolean) {
+export function useGetUserByUsernameQuery(username: string) {
   return useApiQuery<User>({
     path: `/users/byUsername/${username}`,
     queryKey: ['users', 'byUsername', username],
-    queryOptions: { staleTime: runOnce ? Infinity : undefined },
   });
 }

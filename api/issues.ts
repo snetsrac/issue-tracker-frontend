@@ -47,11 +47,10 @@ export function useGetIssuesQuery(pageQuery: PageQuery) {
   });
 }
 
-export function useGetIssueByIdQuery(id: string, runOnce?: boolean) {
+export function useGetIssueByIdQuery(id: string) {
   return useApiQuery<Issue>({
     path: `/issues/${id}`,
     queryKey: ['issues', id],
-    queryOptions: { staleTime: runOnce ? Infinity : undefined },
   });
 }
 

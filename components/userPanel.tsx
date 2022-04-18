@@ -15,8 +15,7 @@ export default function UserPanel() {
 
   const result = useGetUserByIdQuery(
     userToken?.sub ?? '',
-    userToken?.sub !== undefined,
-    true
+    userToken?.sub !== undefined
   );
 
   const LoadingOrError = ({ state }: { state: 'loading' | 'error' }) => {
