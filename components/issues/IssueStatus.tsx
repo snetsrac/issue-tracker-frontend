@@ -5,7 +5,7 @@ import {
   InformationCircleIcon,
   LockOpenIcon,
 } from '@heroicons/react/solid';
-import { Issue } from '../../api';
+import { Issue } from '../../api/issues';
 
 export function IssueStatus({ status }: { status: Issue['status'] }) {
   let content;

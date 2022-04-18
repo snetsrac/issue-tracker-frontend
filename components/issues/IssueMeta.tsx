@@ -1,18 +1,28 @@
-import { Issue } from '../../api';
+import { Issue } from '../../api/issues';
 
 type IssueMetaProps = {
   issue: Issue;
 };
 
 export default function IssueMeta({ issue }: IssueMetaProps) {
+  const submitter = issue.submitter ? (
+    <a
+      href={`/users/${issue.submitter.username}`}
+      className='font-medium text-gray-900 hover:text-gray-500'
+    >
+      {issue.submitter.name}
+    </a>
+  ) : (
+    <div className='font-medium text-gray-900'>Unknown User</div>
+  );
+
   return (
     <p className='mt-2 text-sm text-gray-500'>
-      #{issue.id} opened by{' '}
-      <a href='/users/:id' className='font-medium text-gray-900'>
-        Submitter Name
-      </a>{' '}
-      in{' '}
-      <a href='/projects/:id' className='font-medium text-gray-900'>
+      #{issue.id} opened by {submitter} in{' '}
+      <a
+        href='/projects/:id'
+        className='font-medium text-gray-900 hover:text-gray-500'
+      >
         Project Name
       </a>
     </p>

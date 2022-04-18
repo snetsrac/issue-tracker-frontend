@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, SetStateAction } from 'react';
 import { Navigation, Projects } from './layout';
-import UserPanelMobile from './userPanelMobile';
+import UserPanel from './userPanel';
 
 type SidebarMobileProps = {
   isOpen: boolean;
@@ -72,6 +72,9 @@ export default function SidebarMobile({
             </Transition.Child>
             <div className='flex flex-shrink-0 items-center px-4'>
               <Image width={32} height={32} src='/logo.svg' alt='Logo' />
+              <p className='ml-3 text-xl font-bold tracking-wider text-white'>
+                Issue Tracker
+              </p>
             </div>
             <div className='mt-5 h-0 flex-1 overflow-y-auto'>
               <nav className='px-2'>
@@ -123,7 +126,7 @@ export default function SidebarMobile({
                 )}
               </nav>
             </div>
-            <UserPanelMobile />
+            <UserPanel />
           </div>
         </Transition.Child>
         <div className='w-14 flex-shrink-0' aria-hidden='true'>

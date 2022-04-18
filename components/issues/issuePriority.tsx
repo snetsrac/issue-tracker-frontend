@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon, ExclamationIcon } from '@heroicons/react/solid';
-import { Issue } from '../../api';
+import { Issue } from '../../api/issues';
 
 export function IssuePriority({ priority }: { priority: Issue['priority'] }) {
   let content;

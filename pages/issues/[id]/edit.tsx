@@ -5,7 +5,7 @@ import {
   Issue,
   IssuePriority,
   IssueStatus,
-  useGetIssueQuery,
+  useGetIssueByIdQuery,
   useUpdateIssueMutation,
 } from '../../../api/issues';
 import Form from '../../../components/forms/form';
@@ -25,11 +25,12 @@ function IssueUpdatePage() {
     description: '',
     status: IssueStatus.NULL,
     priority: IssuePriority.NULL,
+    submitter: null,
   });
 
   const [isIssueLoaded, setIsIssueLoaded] = useState(false);
 
-  const getIssue = useGetIssueQuery(id, true);
+  const getIssue = useGetIssueByIdQuery(id, true);
 
   const updateIssue = useUpdateIssueMutation(id, issue);
 

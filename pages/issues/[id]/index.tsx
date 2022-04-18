@@ -2,7 +2,7 @@ import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { BellIcon, PencilIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useGetIssueQuery } from '../../../api/issues';
+import { useGetIssueByIdQuery } from '../../../api/issues';
 import { IssueAside } from '../../../components/issues/IssueAside';
 import IssueMeta from '../../../components/issues/IssueMeta';
 import { withLayout } from '../../../components/layout';
@@ -11,7 +11,7 @@ function IssuePage() {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const result = useGetIssueQuery(id);
+  const result = useGetIssueByIdQuery(id);
 
   if (result.isLoading) {
     return <span>Loading...</span>;

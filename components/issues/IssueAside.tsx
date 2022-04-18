@@ -1,5 +1,5 @@
 import { CalendarIcon, ChatAltIcon } from '@heroicons/react/solid';
-import { Issue } from '../../api';
+import { Issue } from '../../api/issues';
 import { IssuePriority } from './issuePriority';
 import { IssueStatus } from './IssueStatus';
 

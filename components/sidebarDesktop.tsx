@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Navigation, Projects } from './layout';
-import UserPanelDesktop from './userPanelDesktop';
+import UserPanel from './userPanel';
 
 type SidebarDesktopProps = {
   navigation: Navigation;
@@ -74,7 +74,7 @@ export default function SidebarDesktop({
             )}
           </nav>
         </div>
-        <UserPanelDesktop />
+        <UserPanel />
       </div>
     </div>
   );

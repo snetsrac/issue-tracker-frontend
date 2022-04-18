@@ -1,6 +1,7 @@
 import { useQueryClient } from 'react-query';
 import { PageMetadata, PageQuery } from '../components/pagination/pagination';
 import { useApiMutation, useApiQuery } from './useApi';
+import { User } from './users';
 
 export type Issue = {
   id: number;
@@ -8,6 +9,7 @@ export type Issue = {
   description: string;
   status: IssueStatus;
   priority: IssuePriority;
+  submitter: User | null;
 };
 
 export type IssueNew = {
@@ -45,7 +47,7 @@ export function useGetIssuesQuery(pageQuery: PageQuery) {
   });
 }
 
-export function useGetIssueQuery(id: string, runOnce?: boolean) {
+export function useGetIssueByIdQuery(id: string, runOnce?: boolean) {
   return useApiQuery<Issue>({
     path: `/issues/${id}`,
     queryKey: ['issues', id],
