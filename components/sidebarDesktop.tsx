@@ -1,17 +1,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { ReactNode } from 'react';
 import { Navigation, Projects } from './layout';
 import UserPanel from './userPanel';
 
 type SidebarDesktopProps = {
   navigation: Navigation;
   projects: Projects;
+  userPanel: ReactNode;
 };
 
 export default function SidebarDesktop({
   navigation,
   projects,
+  userPanel,
 }: SidebarDesktopProps) {
   const router = useRouter();
 
@@ -74,7 +77,7 @@ export default function SidebarDesktop({
             )}
           </nav>
         </div>
-        <UserPanel />
+        {userPanel}
       </div>
     </div>
   );

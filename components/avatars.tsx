@@ -4,15 +4,17 @@ type AvatarProps = {
   src?: string;
   height: number;
   width?: number;
+  alt: string;
 };
 
-export function Avatar({ src, height, width }: AvatarProps) {
+export function Avatar({ src, height, width, alt }: AvatarProps) {
   return src ? (
     <Image
       src={src}
       height={height}
       width={width || height}
       className='inline-block rounded-full'
+      alt={alt}
     />
   ) : (
     <span

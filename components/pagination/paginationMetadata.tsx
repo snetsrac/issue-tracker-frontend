@@ -1,4 +1,4 @@
-import { PageMetadata } from '../../api';
+import { PageMetadata } from './pagination';
 
 type PaginationMetadataProps = {
   pageMetadata: PageMetadata;

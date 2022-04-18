@@ -3,7 +3,7 @@ import { XIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Dispatch, Fragment, SetStateAction } from 'react';
+import { Dispatch, Fragment, ReactNode, SetStateAction } from 'react';
 import { Navigation, Projects } from './layout';
 import UserPanel from './userPanel';
 
@@ -12,6 +12,7 @@ type SidebarMobileProps = {
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   navigation: Navigation;
   projects: Projects;
+  userPanel: ReactNode;
 };
 
 export default function SidebarMobile({
@@ -19,6 +20,7 @@ export default function SidebarMobile({
   setIsOpen,
   navigation,
   projects,
+  userPanel,
 }: SidebarMobileProps) {
   const router = useRouter();
 
@@ -126,7 +128,7 @@ export default function SidebarMobile({
                 )}
               </nav>
             </div>
-            <UserPanel />
+            {userPanel}
           </div>
         </Transition.Child>
         <div className='w-14 flex-shrink-0' aria-hidden='true'>

@@ -38,7 +38,11 @@ export default function UserPanel() {
   const LoggedIn = ({ userToken }: { userToken: User }) => {
     const content = (
       <div className='flex items-center'>
-        <Avatar src={userToken.picture} height={36} />
+        <Avatar
+          src={userToken.picture}
+          height={36}
+          alt={userToken.name || ''}
+        />
         <div className='ml-3'>
           <p className='text-base font-medium text-white lg:text-sm'>
             {userToken.name}

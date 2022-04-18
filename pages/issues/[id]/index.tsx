@@ -52,7 +52,7 @@ function IssuePage() {
                     <span>Edit</span>
                   </a>
                 </Link>
-                <button
+                {/* <button
                   type='button'
                   className='inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2'
                 >
@@ -61,14 +61,10 @@ function IssuePage() {
                     aria-hidden='true'
                   />
                   <span>Subscribe</span>
-                </button>
+                </button> */}
               </div>
             </div>
-            <IssueAside
-              className='mt-8 xl:hidden'
-              status={issue.status}
-              priority={issue.priority}
-            />
+            <IssueAside className='mt-8 xl:hidden' issue={issue} />
             <div className='py-3 xl:pt-6 xl:pb-0'>
               <h2 className='sr-only'>Description</h2>
               <div className='prose max-w-none'>
@@ -78,11 +74,7 @@ function IssuePage() {
           </div>
         </div>
       </div>
-      <IssueAside
-        className='hidden xl:block xl:pl-8'
-        status={issue.status}
-        priority={issue.priority}
-      />
+      <IssueAside className='hidden xl:block xl:pl-8' issue={issue} />
     </div>
   );
 }

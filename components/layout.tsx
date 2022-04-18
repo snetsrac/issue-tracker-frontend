@@ -1,14 +1,9 @@
-import {
-  FolderIcon,
-  HomeIcon,
-  UsersIcon,
-  ViewListIcon,
-} from '@heroicons/react/outline';
-import Head from 'next/head';
+import { HomeIcon, ViewListIcon } from '@heroicons/react/outline';
 import { ComponentType, ReactNode, useState } from 'react';
 import Searchbar from './searchbar';
 import SidebarDesktop from './sidebarDesktop';
 import SidebarMobile from './sidebarMobile';
+import UserPanel from './userPanel';
 
 type LayoutProps = {
   children: ReactNode;
@@ -45,6 +40,8 @@ export type Projects = typeof projects;
 export default function Layout({ children }: LayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const userPanel = <UserPanel />;
+
   return (
     <>
       <div className='flex min-h-full'>
@@ -53,8 +50,13 @@ export default function Layout({ children }: LayoutProps) {
           setIsOpen={setIsSidebarOpen}
           navigation={navigation}
           projects={projects}
+          userPanel={userPanel}
         />
-        <SidebarDesktop navigation={navigation} projects={projects} />
+        <SidebarDesktop
+          navigation={navigation}
+          projects={projects}
+          userPanel={userPanel}
+        />
         <div className='flex w-0 flex-1 flex-col lg:pl-64'>
           <Searchbar setIsSidebarOpen={setIsSidebarOpen} />
           <main className='flex-1'>
