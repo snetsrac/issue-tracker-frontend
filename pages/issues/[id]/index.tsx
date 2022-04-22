@@ -67,8 +67,10 @@ function IssuePage() {
             <IssueAside className='mt-8 xl:hidden' issue={issue} />
             <div className='py-3 xl:pt-6 xl:pb-0'>
               <h2 className='sr-only'>Description</h2>
-              <div className='prose max-w-none'>
-                <p>{issue.description}</p>
+              <div className='prose max-w-none space-y-4'>
+                {issue.description.split('\n').map((paragraph) => (
+                  <p>{paragraph}</p>
+                ))}
               </div>
             </div>
           </div>
