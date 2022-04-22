@@ -10,6 +10,7 @@ export type Issue = {
   status: IssueStatus;
   priority: IssuePriority;
   submitter: User | null;
+  assignees: User[];
 };
 
 export type IssueNew = {

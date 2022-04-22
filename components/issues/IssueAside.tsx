@@ -29,21 +29,23 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
         </div>
       </div>
       <div className='mt-6 space-y-8 border-t border-gray-200 py-6'>
-        {issue.submitter && (
+        {issue.assignees.length > 0 && (
           <div>
-            <h2 className='text-sm font-medium text-gray-500'>Submitter</h2>
-            <Link href={`/users/${issue.submitter.username}`}>
-              <a className='group mt-3 flex items-center space-x-3'>
-                <Avatar
-                  src={issue.submitter.picture}
-                  height={36}
-                  alt={issue.submitter.name}
-                />
-                <div className='text-sm font-medium text-gray-900 group-hover:text-gray-500'>
-                  {issue.submitter.name}
-                </div>
-              </a>
-            </Link>
+            <h2 className='text-sm font-medium text-gray-500'>Assignees</h2>
+            {issue.assignees.map((assignee) => (
+              <Link href={`/users/${assignee.username}`}>
+                <a className='group mt-3 flex items-center space-x-3'>
+                  <Avatar
+                    src={assignee.picture}
+                    height={36}
+                    alt={assignee.name}
+                  />
+                  <div className='text-sm font-medium text-gray-900 group-hover:text-gray-500'>
+                    {assignee.name}
+                  </div>
+                </a>
+              </Link>
+            ))}
           </div>
         )}
         <div>
