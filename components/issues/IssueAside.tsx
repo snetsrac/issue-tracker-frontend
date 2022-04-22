@@ -1,5 +1,6 @@
 import { CalendarIcon, ChatAltIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
+import { parseISO, format } from 'date-fns';
 import { Issue } from '../../api/issues';
 import { Avatar } from '../avatars';
 import { IssuePriority } from './issuePriority';
@@ -24,7 +25,10 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
         <div className='flex items-center space-x-2'>
           <CalendarIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
           <span className='text-sm font-medium text-gray-900'>
-            Created on <time dateTime='2020-12-02'>Dec 2, 2020</time>
+            Created on{' '}
+            <time dateTime={issue.createdAt}>
+              {format(parseISO(issue.createdAt), 'MMM d, yyyy')}
+            </time>
           </span>
         </div>
       </div>

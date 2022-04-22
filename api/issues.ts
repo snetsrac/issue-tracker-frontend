@@ -11,6 +11,7 @@ export type Issue = {
   priority: IssuePriority;
   submitter: User | null;
   assignees: User[];
+  createdAt: string;
 };
 
 export type IssueNew = {
