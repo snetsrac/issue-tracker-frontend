@@ -2,7 +2,7 @@ import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
-  IssueNew,
+  IssueCreation,
   IssuePriority,
   useCreateIssueMutation,
 } from '../../api/issues';
@@ -15,7 +15,7 @@ import { withLayout } from '../../components/layout';
 function IssueCreatePage() {
   const router = useRouter();
 
-  const [issue, setIssue] = useState<IssueNew>({
+  const [issue, setIssue] = useState<IssueCreation>({
     title: '',
     description: '',
     priority: IssuePriority.NULL,

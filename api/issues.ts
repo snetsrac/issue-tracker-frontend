@@ -14,10 +14,18 @@ export type Issue = {
   createdAt: string;
 };
 
-export type IssueNew = {
+export type IssueCreation = {
   title: string;
   description: string;
   priority: IssuePriority;
+};
+
+export type IssueUpdate = {
+  title: string;
+  description: string;
+  status: IssueStatus;
+  priority: IssuePriority;
+  assignees: User[];
 };
 
 export enum IssueStatus {
@@ -56,9 +64,9 @@ export function useGetIssueByIdQuery(id: string) {
   });
 }
 
-export function useCreateIssueMutation(issue: IssueNew) {
+export function useCreateIssueMutation(issue: IssueCreation) {
   const queryClient = useQueryClient();
-  return useApiMutation<Issue, IssueNew>({
+  return useApiMutation<Issue, IssueCreation>({
     path: '/issues',
     queryKey: ['issues'],
     body: issue,
@@ -72,9 +80,9 @@ export function useCreateIssueMutation(issue: IssueNew) {
   });
 }
 
-export function useUpdateIssueMutation(id: string, issue: Issue) {
+export function useUpdateIssueMutation(id: string, issue: IssueUpdate) {
   const queryClient = useQueryClient();
-  return useApiMutation<Issue, Issue>({
+  return useApiMutation<Issue, IssueUpdate>({
     path: `/issues/${id}`,
     queryKey: ['issues', id],
     body: issue,

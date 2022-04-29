@@ -2,9 +2,9 @@ import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
-  Issue,
   IssuePriority,
   IssueStatus,
+  IssueUpdate,
   useGetIssueByIdQuery,
   useUpdateIssueMutation,
 } from '../../../api/issues';
@@ -19,13 +19,12 @@ function IssueUpdatePage() {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const [issue, setIssue] = useState<Issue>({
-    id: 0,
+  const [issue, setIssue] = useState<IssueUpdate>({
     title: '',
     description: '',
     status: IssueStatus.NULL,
     priority: IssuePriority.NULL,
-    submitter: null,
+    assignees: [],
   });
 
   const [isIssueLoaded, setIsIssueLoaded] = useState(false);
