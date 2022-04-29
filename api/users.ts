@@ -1,3 +1,4 @@
+import { PageQuery } from '../components/pagination/pagination';
 import { useApiQuery } from './useApi';
 
 export type User = {
@@ -8,17 +9,24 @@ export type User = {
   picture: string;
 };
 
-export function useGetUserByIdQuery(id: string, enabled: boolean = true) {
+export function useGetAuthUserQuery() {
   return useApiQuery<User>({
-    path: `/users/byId/${id}`,
-    queryKey: ['users', 'byId', id],
-    queryOptions: { enabled },
+    path: '/user',
+    queryKey: ['user'],
+  });
+}
+export function useGetUserQuery(pageQuery: PageQuery) {
+  return useApiQuery<User>({
+    path: '/users',
+    queryKey: ['users', pageQuery.toString()],
+    pageQuery,
+    queryOptions: { keepPreviousData: true },
   });
 }
 
 export function useGetUserByUsernameQuery(username: string) {
   return useApiQuery<User>({
-    path: `/users/byUsername/${username}`,
-    queryKey: ['users', 'byUsername', username],
+    path: `/users/${username}`,
+    queryKey: ['users', username],
   });
 }

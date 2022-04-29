@@ -1,6 +1,6 @@
 import { useAuth0, User } from '@auth0/auth0-react';
 import Link from 'next/link';
-import { useGetUserByIdQuery } from '../api/users';
+import { useGetAuthUserQuery } from '../api/users';
 import { Avatar } from './avatars';
 
 export default function UserPanel() {
@@ -13,10 +13,7 @@ export default function UserPanel() {
     logout,
   } = useAuth0();
 
-  const result = useGetUserByIdQuery(
-    userToken?.sub ?? '',
-    userToken?.sub !== undefined
-  );
+  const result = useGetAuthUserQuery();
 
   const LoadingOrError = ({ state }: { state: 'loading' | 'error' }) => {
     return (
