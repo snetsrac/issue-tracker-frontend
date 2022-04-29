@@ -18,10 +18,10 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
       <div className='space-y-5'>
         <IssueStatus status={issue.status} />
         <IssuePriority priority={issue.priority} />
-        <div className='flex items-center space-x-2'>
+        {/* <div className='flex items-center space-x-2'>
           <ChatAltIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
           <span className='text-sm font-medium text-gray-900'>4 comments</span>
-        </div>
+        </div> */}
         <div className='flex items-center space-x-2'>
           <CalendarIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
           <span className='text-sm font-medium text-gray-900'>
@@ -55,7 +55,7 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
             ))}
           </div>
         )}
-        <div>
+        {/* <div>
           <h2 className='text-sm font-medium text-gray-500'>Tags</h2>
           <ul role='list' className='mt-2 leading-8'>
             <li className='inline'>
@@ -91,7 +91,7 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
               </a>{' '}
             </li>
           </ul>
-        </div>
+        </div> */}
       </div>
     </aside>
   );
