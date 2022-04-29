@@ -1,11 +1,15 @@
+import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { FormEvent, ReactNode } from 'react';
+import Spinner from '../spinner';
 
 type FormProps = {
   title: string;
   description: ReactNode;
   onSubmit: () => void;
   disabled?: boolean;
+  isLoading?: boolean;
+  error?: Error | null;
   children: ReactNode;
   columns?: number;
 };
@@ -15,6 +19,8 @@ export default function Form({
   description,
   onSubmit,
   disabled,
+  isLoading,
+  error,
   children,
   columns = 6,
 }: FormProps) {
@@ -47,7 +53,20 @@ export default function Form({
           </div>
         </div>
         <div className='pt-5'>
-          <div className='flex justify-end'>
+          <div className='flex justify-end space-x-3'>
+            {isLoading ? (
+              <div className='mr-auto flex items-center space-x-2'>
+                <Spinner />
+                <div className='text-sm'>Submitting...</div>
+              </div>
+            ) : (
+              error && (
+                <div className='mr-auto flex items-center space-x-2 text-red-700'>
+                  <ExclamationCircleIcon className='h-6 w-6' />
+                  <span className='text-sm'>Error: {error.message}</span>
+                </div>
+              )
+            )}
             <button
               type='button'
               className='rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-200 '
@@ -57,7 +76,7 @@ export default function Form({
             </button>
             <button
               type='submit'
-              className='ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-500 '
+              className='rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-500 '
             >
               Save
             </button>

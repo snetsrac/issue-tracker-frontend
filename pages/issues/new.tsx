@@ -34,6 +34,8 @@ function IssueCreatePage() {
         description='Open a new issue ticket.'
         onSubmit={() => createIssue.mutate(issue)}
         disabled={createIssue.isLoading}
+        isLoading={createIssue.isLoading}
+        error={createIssue.error}
       >
         <Text
           id='title'

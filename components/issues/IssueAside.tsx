@@ -33,31 +33,36 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
         </div>
       </div>
       <div className='mt-6 space-y-8 border-t border-gray-200 py-6'>
-        {issue.assignees.length > 0 && (
-          <div>
-            <h2 className='text-sm font-medium text-gray-500'>Assignees</h2>
-            {issue.assignees.map((assignee) => (
-              <Link
-                key={assignee.username}
-                href={`/users/${assignee.username}`}
-              >
-                <a className='group mt-3 flex items-center space-x-3'>
-                  <Avatar
-                    src={assignee.picture}
-                    height={36}
-                    alt={assignee.name}
-                  />
-                  <div className='text-sm font-medium text-gray-900 group-hover:text-gray-500'>
-                    {assignee.name}
-                  </div>
-                </a>
-              </Link>
-            ))}
-          </div>
-        )}
+        <div>
+          <h2 className='text-sm font-medium text-gray-500'>Assignees</h2>
+          {issue.assignees.length === 0 && (
+            <div className='mt-3 ml-6 flex h-9 items-center text-sm italic text-gray-400'>
+              No assignees
+            </div>
+          )}
+          {issue.assignees.map((assignee) => (
+            <Link key={assignee.username} href={`/users/${assignee.username}`}>
+              <a className='group mt-3 flex items-center space-x-3'>
+                <Avatar
+                  src={assignee.picture}
+                  height={36}
+                  alt={assignee.name}
+                />
+                <span className='text-sm font-medium text-gray-900 group-hover:text-gray-500'>
+                  {assignee.name}
+                </span>
+              </a>
+            </Link>
+          ))}
+        </div>
         {/* <div>
           <h2 className='text-sm font-medium text-gray-500'>Tags</h2>
-          <ul role='list' className='mt-2 leading-8'>
+          <ul role='list' className='mt-3 leading-8'>
+            <li className='inline'>
+              <div className='relative ml-6 inline-flex items-center'>
+                <div className='text-sm italic text-gray-400'>No tags</div>
+              </div>{' '}
+            </li>
             <li className='inline'>
               <a
                 href='#'

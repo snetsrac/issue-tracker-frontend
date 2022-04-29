@@ -45,7 +45,7 @@ function IssueUpdatePage() {
   return (
     <div className='mx-auto max-w-xl px-4 sm:px-6 lg:px-8'>
       <Form
-        title={issue.title.length > 0 ? issue.title : 'Update Issue'}
+        title={getIssue.data?.title ? getIssue.data.title : 'Update Issue'}
         description={
           getIssue.data !== undefined ? (
             <IssueMeta issue={getIssue.data} />
@@ -54,7 +54,11 @@ function IssueUpdatePage() {
           )
         }
         onSubmit={() => updateIssue.mutate(issue)}
-        disabled={getIssue.isLoading || updateIssue.isLoading}
+        disabled={
+          getIssue.isLoading || getIssue.isError || updateIssue.isLoading
+        }
+        isLoading={getIssue.isLoading || updateIssue.isLoading}
+        error={getIssue.error || updateIssue.error}
       >
         <Text
           id='title'
