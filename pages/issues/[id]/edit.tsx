@@ -48,8 +48,8 @@ function IssueUpdatePage() {
       <Form
         title={issue.title.length > 0 ? issue.title : 'Update Issue'}
         description={
-          issue.description.length > 0 ? (
-            <IssueMeta issue={issue} />
+          getIssue.data !== undefined ? (
+            <IssueMeta issue={getIssue.data} />
           ) : (
             'Update an existing issue.'
           )

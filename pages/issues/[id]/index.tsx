@@ -68,8 +68,8 @@ function IssuePage() {
             <div className='py-3 xl:pt-6 xl:pb-0'>
               <h2 className='sr-only'>Description</h2>
               <div className='prose max-w-none space-y-4'>
-                {issue.description.split('\n').map((paragraph) => (
-                  <p>{paragraph}</p>
+                {issue.description.split('\n').map((paragraph, i) => (
+                  <p key={i}>{paragraph}</p>
                 ))}
               </div>
             </div>

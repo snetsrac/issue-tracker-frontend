@@ -37,7 +37,10 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
           <div>
             <h2 className='text-sm font-medium text-gray-500'>Assignees</h2>
             {issue.assignees.map((assignee) => (
-              <Link href={`/users/${assignee.username}`}>
+              <Link
+                key={assignee.username}
+                href={`/users/${assignee.username}`}
+              >
                 <a className='group mt-3 flex items-center space-x-3'>
                   <Avatar
                     src={assignee.picture}

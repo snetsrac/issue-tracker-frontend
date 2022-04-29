@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, ReactNode, SetStateAction } from 'react';
 import { Navigation, Projects } from './layout';
-import UserPanel from './userPanel';
 
 type SidebarMobileProps = {
   isOpen: boolean;
