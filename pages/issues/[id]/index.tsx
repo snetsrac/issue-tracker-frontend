@@ -3,6 +3,7 @@ import { BellIcon, PencilIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useGetIssueByIdQuery } from '../../../api/issues';
+import { LinkButton } from '../../../components/button';
 import { IssueAside } from '../../../components/issues/IssueAside';
 import IssueMeta from '../../../components/issues/IssueMeta';
 import { withLayout } from '../../../components/layout';
@@ -43,15 +44,14 @@ function IssuePage() {
                 <IssueMeta issue={issue} />
               </div>
               <div className='mt-4 flex space-x-3 md:mt-0'>
-                <Link href={`/issues/${id}/edit`}>
-                  <a className='inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2'>
-                    <PencilIcon
-                      className='-ml-1 mr-2 h-5 w-5 text-gray-400'
-                      aria-hidden='true'
-                    />
-                    <span>Edit</span>
-                  </a>
-                </Link>
+                <LinkButton
+                  href={`/issues/${id}/edit`}
+                  type='white'
+                  LeadingIcon={PencilIcon}
+                  iconColor='gray-400'
+                >
+                  Edit
+                </LinkButton>
                 {/* <button
                   type='button'
                   className='inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2'

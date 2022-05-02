@@ -37,7 +37,7 @@ const projects: { id: number; name: string; href: string }[] = [
 
 export type Projects = typeof projects;
 
-export default function Layout({ children }: LayoutProps) {
+function Layout({ children }: LayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const userPanel = <UserPanel />;
