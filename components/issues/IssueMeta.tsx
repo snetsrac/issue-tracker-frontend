@@ -1,10 +1,15 @@
 import { Issue } from '../../api/issues';
+import Shimmer from '../shimmer';
 
 type IssueMetaProps = {
-  issue: Issue;
+  issue: Issue | undefined;
 };
 
 export default function IssueMeta({ issue }: IssueMetaProps) {
+  if (issue === undefined) {
+    return <Shimmer className='mt-2 w-48 text-sm' />;
+  }
+
   const submitter = issue.submitter ? (
     <a
       href={`/users/${issue.submitter.username}`}

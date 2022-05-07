@@ -1,14 +1,12 @@
-import { CalendarIcon, ChatAltIcon } from '@heroicons/react/solid';
-import Link from 'next/link';
-import { parseISO, format } from 'date-fns';
 import { Issue } from '../../api/issues';
-import { Avatar } from '../avatars';
 import { IssuePriority } from './issuePriority';
 import { IssueStatus } from './IssueStatus';
+import IssueDate from './IssueDate';
+import IssueAssignees from './IssueAssignees';
 
 type IssueAsideProps = {
   className: string;
-  issue: Issue;
+  issue: Issue | undefined;
 };
 
 export function IssueAside({ className, issue }: IssueAsideProps) {
@@ -16,45 +14,16 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
     <aside className={className}>
       <h2 className='sr-only'>Details</h2>
       <div className='space-y-5'>
-        <IssueStatus status={issue.status} />
-        <IssuePriority priority={issue.priority} />
+        <IssueStatus status={issue?.status} />
+        <IssuePriority priority={issue?.priority} />
         {/* <div className='flex items-center space-x-2'>
           <ChatAltIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
           <span className='text-sm font-medium text-gray-900'>4 comments</span>
         </div> */}
-        <div className='flex items-center space-x-2'>
-          <CalendarIcon className='h-5 w-5 text-gray-400' aria-hidden='true' />
-          <span className='text-sm font-medium text-gray-900'>
-            Created on{' '}
-            <time dateTime={issue.createdAt}>
-              {format(parseISO(issue.createdAt), 'MMM d, yyyy')}
-            </time>
-          </span>
-        </div>
+        <IssueDate date={issue?.createdAt} />
       </div>
       <div className='mt-6 space-y-8 border-t border-gray-200 py-6'>
-        <div>
-          <h2 className='text-sm font-medium text-gray-500'>Assignees</h2>
-          {issue.assignees.length === 0 && (
-            <div className='mt-3 ml-6 flex h-9 items-center text-sm italic text-gray-400'>
-              No assignees
-            </div>
-          )}
-          {issue.assignees.map((assignee) => (
-            <Link key={assignee.username} href={`/users/${assignee.username}`}>
-              <a className='group mt-3 flex items-center space-x-3'>
-                <Avatar
-                  src={assignee.picture}
-                  height={36}
-                  alt={assignee.name}
-                />
-                <span className='text-sm font-medium text-gray-900 group-hover:text-gray-500'>
-                  {assignee.name}
-                </span>
-              </a>
-            </Link>
-          ))}
-        </div>
+        <IssueAssignees assignees={issue?.assignees} />
         {/* <div>
           <h2 className='text-sm font-medium text-gray-500'>Tags</h2>
           <ul role='list' className='mt-3 leading-8'>

@@ -6,11 +6,19 @@ import {
   LockOpenIcon,
 } from '@heroicons/react/solid';
 import { Issue } from '../../api/issues';
+import Shimmer from '../shimmer';
 
-export function IssueStatus({ status }: { status: Issue['status'] }) {
+type IssueStatusProps = {
+  status: Issue['status'] | undefined;
+};
+
+export function IssueStatus({ status }: IssueStatusProps) {
   let content;
 
   switch (status) {
+    case undefined:
+      content = <Shimmer className='w-40 text-sm' />;
+      break;
     case 'open':
       content = (
         <>

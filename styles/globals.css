@@ -11,3 +11,21 @@
     @apply h-full;
   }
 }
+
+@layer components {
+  /* https://stackoverflow.com/questions/35151887/how-to-create-placeholder-while-loading-like-facebook#41900041 */
+  @keyframes shimmerBackground {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  .shimmer {
+    background-image: linear-gradient(111deg, #eee 40%, #ddd 50%, #eee 60%);
+    background-size: 1000px 100%;
+    animation: shimmerBackground 2s linear infinite forwards;
+  }
+}

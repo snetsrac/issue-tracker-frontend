@@ -1,35 +1,27 @@
 import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { BellIcon, PencilIcon } from '@heroicons/react/solid';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useGetIssueByIdQuery } from '../../../api/issues';
 import { LinkButton } from '../../../components/button';
 import { IssueAside } from '../../../components/issues/IssueAside';
+import IssueDescription from '../../../components/issues/IssueDescription';
 import IssueMeta from '../../../components/issues/IssueMeta';
 import { withLayout } from '../../../components/layout';
+import PageTitle from '../../../components/pageTitle';
 
 function IssuePage() {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const result = useGetIssueByIdQuery(id);
+  const { isError, error, data: issue } = useGetIssueByIdQuery(id);
 
-  if (result.isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (result.isError || result.data === undefined) {
+  if (isError) {
     return (
       <span>
-        Error:{' '}
-        {result.error instanceof Error
-          ? result.error.message
-          : 'Unknown error.'}
+        Error: {error instanceof Error ? error.message : 'Unknown error.'}
       </span>
     );
   }
-
-  const issue = result.data;
 
   return (
     <div className='mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 xl:grid xl:max-w-5xl xl:grid-cols-3'>
@@ -38,9 +30,7 @@ function IssuePage() {
           <div>
             <div className='md:flex md:items-center md:justify-between md:space-x-4 xl:border-b xl:pb-6'>
               <div>
-                <h1 className='text-2xl font-bold text-gray-900'>
-                  {issue.title}
-                </h1>
+                <PageTitle title={issue?.title} />
                 <IssueMeta issue={issue} />
               </div>
               <div className='mt-4 flex space-x-3 md:mt-0'>
@@ -65,14 +55,7 @@ function IssuePage() {
               </div>
             </div>
             <IssueAside className='mt-8 xl:hidden' issue={issue} />
-            <div className='py-3 xl:pt-6 xl:pb-0'>
-              <h2 className='sr-only'>Description</h2>
-              <div className='prose max-w-none space-y-4'>
-                {issue.description.split('\n').map((paragraph, i) => (
-                  <p key={i}>{paragraph}</p>
-                ))}
-              </div>
-            </div>
+            <IssueDescription description={issue?.description} />
           </div>
         </div>
       </div>

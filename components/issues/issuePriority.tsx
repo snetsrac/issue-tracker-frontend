@@ -1,10 +1,18 @@
 import { ExclamationCircleIcon, ExclamationIcon } from '@heroicons/react/solid';
 import { Issue } from '../../api/issues';
+import Shimmer from '../shimmer';
 
-export function IssuePriority({ priority }: { priority: Issue['priority'] }) {
+type IssuePriorityProps = {
+  priority: Issue['priority'] | undefined;
+};
+
+export function IssuePriority({ priority }: IssuePriorityProps) {
   let content;
 
   switch (priority) {
+    case undefined:
+      content = <Shimmer className='w-40 text-sm' />;
+      break;
     case 'high':
       content = (
         <>
