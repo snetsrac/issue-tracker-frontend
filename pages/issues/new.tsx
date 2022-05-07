@@ -6,6 +6,7 @@ import {
   IssuePriority,
   useCreateIssueMutation,
 } from '../../api/issues';
+import usePermissions, { Permissions } from '../../api/usePermissions';
 import Form from '../../components/forms/form';
 import Select from '../../components/forms/select';
 import Text from '../../components/forms/text';
@@ -14,6 +15,7 @@ import { withLayout } from '../../components/layout';
 
 function IssueCreatePage() {
   const router = useRouter();
+  const permissions = usePermissions();
 
   const [issue, setIssue] = useState<IssueCreation>({
     title: '',
@@ -22,6 +24,10 @@ function IssueCreatePage() {
   });
 
   const createIssue = useCreateIssueMutation(issue);
+
+  if (!permissions.includes(Permissions.SUBMIT_ISSUES)) {
+    router.replace('/issues');
+  }
 
   if (createIssue.isSuccess) {
     router.push(`/issues/${createIssue.data.id}`);

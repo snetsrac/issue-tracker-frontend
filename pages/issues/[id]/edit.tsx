@@ -1,4 +1,4 @@
-import { withAuthenticationRequired } from '@auth0/auth0-react';
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import {
@@ -8,6 +8,7 @@ import {
   useGetIssueByIdQuery,
   useUpdateIssueMutation,
 } from '../../../api/issues';
+import usePermissions, { Permissions } from '../../../api/usePermissions';
 import Form from '../../../components/forms/form';
 import Select from '../../../components/forms/select';
 import Text from '../../../components/forms/text';
@@ -18,6 +19,9 @@ import { withLayout } from '../../../components/layout';
 function IssueUpdatePage() {
   const router = useRouter();
   const id = router.query.id as string;
+
+  const { user } = useAuth0();
+  const permissions = usePermissions();
 
   const [issue, setIssue] = useState<IssueUpdate>({
     title: '',
@@ -32,6 +36,15 @@ function IssueUpdatePage() {
   const getIssue = useGetIssueByIdQuery(id);
 
   const updateIssue = useUpdateIssueMutation(id, issue);
+
+  if (
+    permissions &&
+    !permissions.includes(Permissions.MODIFY_ISSUES) &&
+    getIssue.isSuccess &&
+    getIssue.data.submitter?.id !== user?.sub
+  ) {
+    router.replace(`/issues/${id}`);
+  }
 
   if (!isIssueLoaded && getIssue.isSuccess) {
     setIssue(getIssue.data);

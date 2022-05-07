@@ -1,7 +1,8 @@
-import { withAuthenticationRequired } from '@auth0/auth0-react';
+import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
 import { BellIcon, PencilIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { useGetIssueByIdQuery } from '../../../api/issues';
+import usePermissions, { Permissions } from '../../../api/usePermissions';
 import { LinkButton } from '../../../components/button';
 import { IssueAside } from '../../../components/issues/IssueAside';
 import IssueDescription from '../../../components/issues/IssueDescription';
@@ -13,7 +14,10 @@ function IssuePage() {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { isError, error, data: issue } = useGetIssueByIdQuery(id);
+  const { user } = useAuth0();
+  const permissions = usePermissions();
+
+  let { isError, error, data: issue } = useGetIssueByIdQuery(id);
 
   if (isError) {
     return (
@@ -34,14 +38,17 @@ function IssuePage() {
                 <IssueMeta issue={issue} />
               </div>
               <div className='mt-4 flex space-x-3 md:mt-0'>
-                <LinkButton
-                  href={`/issues/${id}/edit`}
-                  type='white'
-                  LeadingIcon={PencilIcon}
-                  iconColor='gray-400'
-                >
-                  Edit
-                </LinkButton>
+                {permissions.includes(Permissions.MODIFY_ISSUES) ||
+                  (issue?.submitter?.id === user?.sub && (
+                    <LinkButton
+                      href={`/issues/${id}/edit`}
+                      type='white'
+                      LeadingIcon={PencilIcon}
+                      iconColor='gray-400'
+                    >
+                      Edit
+                    </LinkButton>
+                  ))}
                 {/* <button
                   type='button'
                   className='inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2'

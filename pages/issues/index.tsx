@@ -2,6 +2,7 @@ import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useGetIssuesQuery } from '../../api/issues';
+import usePermissions, { Permissions } from '../../api/usePermissions';
 import { LinkButton } from '../../components/button';
 import { IssuePriority } from '../../components/issues/issuePriority';
 import { IssueStatus } from '../../components/issues/IssueStatus';
@@ -46,6 +47,7 @@ const columns = [
 ];
 
 function IssuesPage() {
+  const permissions = usePermissions();
   const { pageQuery } = usePagination();
   const { isLoading, data, error } = useGetIssuesQuery(pageQuery);
 
@@ -73,7 +75,9 @@ function IssuesPage() {
           </p>
         </div>
         <div className='mt-4 sm:mt-0 sm:ml-16 sm:flex-none'>
-          <LinkButton href='/issues/new'>Create Issue</LinkButton>
+          {permissions.includes(Permissions.SUBMIT_ISSUES) && (
+            <LinkButton href='/issues/new'>Create Issue</LinkButton>
+          )}
         </div>
       </div>
       <Table
