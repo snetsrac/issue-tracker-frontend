@@ -7,7 +7,11 @@ type IssueMetaProps = {
 
 export default function IssueMeta({ issue }: IssueMetaProps) {
   if (issue === undefined) {
-    return <Shimmer className='mt-2 w-48 text-sm' />;
+    return (
+      <div>
+        <Shimmer className='mt-2 w-48 text-sm' />
+      </div>
+    );
   }
 
   const submitter = issue.submitter ? (
