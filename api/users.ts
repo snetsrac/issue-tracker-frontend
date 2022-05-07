@@ -9,10 +9,11 @@ export type User = {
   picture: string;
 };
 
-export function useGetAuthUserQuery() {
+export function useGetAuthUserQuery(enabled: boolean) {
   return useApiQuery<User>({
     path: '/user',
     queryKey: ['user'],
+    queryOptions: { enabled },
   });
 }
 export function useGetUserQuery(pageQuery: PageQuery) {

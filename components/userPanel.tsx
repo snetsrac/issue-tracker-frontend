@@ -13,7 +13,7 @@ export default function UserPanel() {
     logout,
   } = useAuth0();
 
-  const result = useGetAuthUserQuery();
+  const result = useGetAuthUserQuery(isAuthenticated);
 
   const LoadingOrError = ({ state }: { state: 'loading' | 'error' }) => {
     return (

@@ -33,6 +33,8 @@ export default function IssueTrackerApp({ Component, pageProps }: AppProps) {
       onRedirectCallback={onRedirectCallback}
       audience={process.env.NEXT_PUBLIC_AUTH0_AUDIENCE}
       scope='openid profile email'
+      useRefreshTokens={true}
+      cacheLocation='localstorage'
     >
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
