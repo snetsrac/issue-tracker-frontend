@@ -1,4 +1,5 @@
 import { withAuthenticationRequired } from '@auth0/auth0-react';
+import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useGetIssuesQuery } from '../../api/issues';
 import { LinkButton } from '../../components/button';
@@ -8,7 +9,8 @@ import { withLayout } from '../../components/layout';
 import Pagination, {
   usePagination,
 } from '../../components/pagination/pagination';
-import Table from '../../components/table';
+import Spinner from '../../components/spinner';
+import Table from '../../components/table/table';
 
 const columns = [
   {
@@ -45,17 +47,9 @@ const columns = [
 
 function IssuesPage() {
   const { pageQuery } = usePagination();
-  const { isLoading, isError, data, error } = useGetIssuesQuery(pageQuery);
+  const { isLoading, data, error } = useGetIssuesQuery(pageQuery);
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError || data === undefined) {
-    return <span>Error: {error ? error.message : 'Unknown error.'}</span>;
-  }
-
-  const issues = data.content.map((issue) => {
+  const issues = data?.content.map((issue) => {
     return {
       id: issue.id,
       title: (
@@ -82,8 +76,29 @@ function IssuesPage() {
           <LinkButton href='/issues/new'>Create Issue</LinkButton>
         </div>
       </div>
-      <Table columns={columns} data={issues} pageQuery={pageQuery} />
-      <Pagination pageQuery={pageQuery} pageMetadata={data.page} />
+      <Table
+        columns={columns}
+        data={issues}
+        pageQuery={pageQuery}
+        isLoading={isLoading}
+      />
+      {isLoading ? (
+        <div className='sticky bottom-0 -mx-4 -mb-8 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:-mx-6 sm:px-6 lg:-mx-8 lg:-mb-10'>
+          <div className='flex items-center space-x-2 px-4 py-2'>
+            <Spinner />
+            <div className='text-sm'>Loading...</div>
+          </div>
+        </div>
+      ) : error || data === undefined ? (
+        <div className='sticky bottom-0 -mx-4 -mb-8 flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:-mx-6 sm:px-6 lg:-mx-8 lg:-mb-10'>
+          <div className='mr-auto flex items-center space-x-2 px-4 py-2 text-red-700'>
+            <ExclamationCircleIcon className='h-6 w-6' />
+            <span className='text-sm'>Error: {error?.message}</span>
+          </div>
+        </div>
+      ) : (
+        <Pagination pageQuery={pageQuery} pageMetadata={data.page} />
+      )}
     </div>
   );
 }
