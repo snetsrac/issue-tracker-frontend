@@ -7,7 +7,7 @@ type SearchbarProps = {
 
 export default function Searchbar({ setIsSidebarOpen }: SearchbarProps) {
   return (
-    <div className='sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white'>
+    <div className='sticky top-0 z-10 flex h-16 flex-shrink-0 border-b border-gray-200 bg-white lg:hidden'>
       <button
         type='button'
         className='border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-900 lg:hidden'
@@ -16,7 +16,7 @@ export default function Searchbar({ setIsSidebarOpen }: SearchbarProps) {
         <span className='sr-only'>Open sidebar</span>
         <MenuAlt2Icon className='h-6 w-6' aria-hidden='true' />
       </button>
-      <div className='flex flex-1 justify-between px-4'>
+      {/* <div className='flex flex-1 justify-between px-4'>
         <div className='flex flex-1'>
           <form className='flex w-full lg:ml-0' action='#' method='GET'>
             <label htmlFor='search-field' className='sr-only'>
@@ -35,15 +35,15 @@ export default function Searchbar({ setIsSidebarOpen }: SearchbarProps) {
             </div>
           </form>
         </div>
-        {/* <div className='ml-4 flex items-center lg:ml-6'>
+        <div className='ml-4 flex items-center lg:ml-6'>
           <button
             type='button'
             className='inline-flex items-center rounded-md border border-transparent bg-rose-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2'
           >
             Create
           </button>
-        </div> */}
-      </div>
+        </div>
+      </div> */}
     </div>
   );
 }
