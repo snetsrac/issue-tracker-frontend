@@ -1,6 +1,6 @@
 import { CalendarIcon } from '@heroicons/react/solid';
 import { format, parseISO } from 'date-fns';
-import Shimmer from '../shimmer';
+import Shimmer from '../ui/shimmer';
 
 type IssueDateProps = {
   date: string | undefined;

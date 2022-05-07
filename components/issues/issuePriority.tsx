@@ -1,6 +1,6 @@
 import { ExclamationCircleIcon, ExclamationIcon } from '@heroicons/react/solid';
 import { Issue } from '../../api/issues';
-import Shimmer from '../shimmer';
+import Shimmer from '../ui/shimmer';
 
 type IssuePriorityProps = {
   priority: Issue['priority'] | undefined;

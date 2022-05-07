@@ -1,4 +1,4 @@
-import { classNames } from '../components/table/table';
+import { classNames } from '../table/table';
 
 type ShimmerProps = {
   className?: string;

@@ -11,7 +11,7 @@ import Form from '../../components/forms/form';
 import Select from '../../components/forms/select';
 import Text from '../../components/forms/text';
 import TextArea from '../../components/forms/textArea';
-import { withLayout } from '../../components/layout';
+import { withLayout } from '../../components/layout/layout';
 
 function IssueCreatePage() {
   const router = useRouter();

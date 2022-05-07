@@ -14,7 +14,7 @@ import Select from '../../../components/forms/select';
 import Text from '../../../components/forms/text';
 import TextArea from '../../../components/forms/textArea';
 import IssueMeta from '../../../components/issues/IssueMeta';
-import { withLayout } from '../../../components/layout';
+import { withLayout } from '../../../components/layout/layout';
 
 function IssueUpdatePage() {
   const router = useRouter();

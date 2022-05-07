@@ -1,4 +1,4 @@
-import Shimmer from '../shimmer';
+import Shimmer from '../ui/shimmer';
 
 type IssueDescriptionProps = {
   description: string | undefined;

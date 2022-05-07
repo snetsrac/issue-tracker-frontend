@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { withLayout } from '../components/layout';
+import { withLayout } from '../components/layout/layout';
 
 function Dashboard() {
   return (

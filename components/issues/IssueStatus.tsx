@@ -6,7 +6,7 @@ import {
   LockOpenIcon,
 } from '@heroicons/react/solid';
 import { Issue } from '../../api/issues';
-import Shimmer from '../shimmer';
+import Shimmer from '../ui/shimmer';
 
 type IssueStatusProps = {
   status: Issue['status'] | undefined;

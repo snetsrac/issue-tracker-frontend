@@ -1,5 +1,5 @@
 import { Issue } from '../../api/issues';
-import Shimmer from '../shimmer';
+import Shimmer from '../ui/shimmer';
 
 type IssueMetaProps = {
   issue: Issue | undefined;

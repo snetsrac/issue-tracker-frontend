@@ -1,7 +1,7 @@
 import { withAuthenticationRequired } from '@auth0/auth0-react';
 import { useRouter } from 'next/router';
 import { useGetUserByUsernameQuery } from '../../../api/users';
-import { withLayout } from '../../../components/layout';
+import { withLayout } from '../../../components/layout/layout';
 
 function UserPage() {
   const router = useRouter();

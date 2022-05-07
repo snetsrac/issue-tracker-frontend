@@ -1,5 +1,6 @@
 import { HomeIcon, ViewListIcon } from '@heroicons/react/outline';
 import { ComponentType, ReactNode, useState } from 'react';
+import AppHead from './appHead';
 import Searchbar from './searchbar';
 import SidebarDesktop from './sidebarDesktop';
 import SidebarMobile from './sidebarMobile';
@@ -71,6 +72,7 @@ function Layout({ children }: LayoutProps) {
 export function withLayout(PageComponent: any): ComponentType<object> {
   const PageWithLayout = () => (
     <Layout>
+      <AppHead />
       <PageComponent />
     </Layout>
   );

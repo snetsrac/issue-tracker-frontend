@@ -3,15 +3,15 @@ import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useGetIssuesQuery } from '../../api/issues';
 import usePermissions, { Permissions } from '../../api/usePermissions';
-import { LinkButton } from '../../components/button';
 import { IssuePriority } from '../../components/issues/issuePriority';
 import { IssueStatus } from '../../components/issues/IssueStatus';
-import { withLayout } from '../../components/layout';
+import { withLayout } from '../../components/layout/layout';
 import Pagination, {
   usePagination,
 } from '../../components/pagination/pagination';
-import Spinner from '../../components/spinner';
 import Table from '../../components/table/table';
+import { LinkButton } from '../../components/ui/button';
+import Spinner from '../../components/ui/spinner';
 
 const columns = [
   {

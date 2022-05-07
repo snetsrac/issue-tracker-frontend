@@ -1,4 +1,4 @@
-import Shimmer from '../shimmer';
+import Shimmer from '../ui/shimmer';
 import { classNames, columnPadding, TableColumn, TableData } from './table';
 
 type TableRowProps = {

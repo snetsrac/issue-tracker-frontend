@@ -3,12 +3,12 @@ import { BellIcon, PencilIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { useGetIssueByIdQuery } from '../../../api/issues';
 import usePermissions, { Permissions } from '../../../api/usePermissions';
-import { LinkButton } from '../../../components/button';
 import { IssueAside } from '../../../components/issues/IssueAside';
 import IssueDescription from '../../../components/issues/IssueDescription';
 import IssueMeta from '../../../components/issues/IssueMeta';
-import { withLayout } from '../../../components/layout';
-import PageTitle from '../../../components/pageTitle';
+import { withLayout } from '../../../components/layout/layout';
+import { LinkButton } from '../../../components/ui/button';
+import PageTitle from '../../../components/ui/pageTitle';
 
 function IssuePage() {
   const router = useRouter();

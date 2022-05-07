@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import Link from 'next/link';
-import { useGetAuthUserQuery } from '../api/users';
-import { Avatar } from './avatars';
+import { useGetAuthUserQuery } from '../../api/users';
+import { Avatar } from '../ui/avatar';
 
 export default function UserPanel() {
   const {

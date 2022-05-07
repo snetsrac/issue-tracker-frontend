@@ -1,8 +1,8 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { FormEvent, ReactNode } from 'react';
-import { Button, SubmitButton } from '../button';
-import Spinner from '../spinner';
+import { Button, SubmitButton } from '../ui/button';
+import Spinner from '../ui/spinner';
 
 type FormProps = {
   title: string;

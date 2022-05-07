@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { User } from '../../api/users';
-import { Avatar } from '../avatars';
-import Shimmer from '../shimmer';
+import { Avatar } from '../ui/avatar';
+import Shimmer from '../ui/shimmer';
 
 type IssueAssigneesProps = {
   assignees: User[] | undefined;
