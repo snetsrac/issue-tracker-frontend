@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Dispatch, Fragment, ReactNode, SetStateAction } from 'react';
+import usePermissions from '../../api/usePermissions';
 import { Navigation, Projects } from './layout';
 
 type SidebarMobileProps = {
@@ -22,6 +23,7 @@ export default function SidebarMobile({
   userPanel,
 }: SidebarMobileProps) {
   const router = useRouter();
+  const permissions = usePermissions();
 
   return (
     <Transition show={isOpen} as={Fragment}>
@@ -80,34 +82,40 @@ export default function SidebarMobile({
             <div className='mt-5 h-0 flex-1 overflow-y-auto'>
               <nav className='px-2'>
                 <div className='space-y-1'>
-                  {navigation.map((item) => (
-                    <Link href={item.href} key={item.href}>
-                      <a
-                        className={
-                          (router.pathname === item.href
-                            ? 'bg-gray-900 text-white'
-                            : 'text-gray-300 hover:bg-gray-700 hover:text-white') +
-                          ' ' +
-                          'group flex items-center rounded-md px-2 py-2 text-base font-medium'
-                        }
-                        aria-current={
-                          router.pathname === item.href ? 'page' : undefined
-                        }
-                      >
-                        <item.icon
+                  {navigation
+                    .filter(
+                      (item) =>
+                        item.authorization === undefined ||
+                        permissions.includes(item.authorization)
+                    )
+                    .map((item) => (
+                      <Link href={item.href} key={item.href}>
+                        <a
                           className={
                             (router.pathname === item.href
-                              ? 'text-gary-300'
-                              : 'text-gray-400 group-hover:text-gray-300') +
+                              ? 'bg-gray-900 text-white'
+                              : 'text-gray-300 hover:bg-gray-700 hover:text-white') +
                             ' ' +
-                            'mr-4 h-6 w-6 flex-shrink-0'
+                            'group flex items-center rounded-md px-2 py-2 text-base font-medium'
                           }
-                          aria-hidden='true'
-                        />
-                        {item.name}
-                      </a>
-                    </Link>
-                  ))}
+                          aria-current={
+                            router.pathname === item.href ? 'page' : undefined
+                          }
+                        >
+                          <item.icon
+                            className={
+                              (router.pathname === item.href
+                                ? 'text-gary-300'
+                                : 'text-gray-400 group-hover:text-gray-300') +
+                              ' ' +
+                              'mr-4 h-6 w-6 flex-shrink-0'
+                            }
+                            aria-hidden='true'
+                          />
+                          {item.name}
+                        </a>
+                      </Link>
+                    ))}
                 </div>
                 {projects !== undefined && projects.length > 0 && (
                   <div className='mt-10'>

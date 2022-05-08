@@ -1,4 +1,4 @@
-import { HomeIcon, ViewListIcon } from '@heroicons/react/outline';
+import { HomeIcon, UsersIcon, ViewListIcon } from '@heroicons/react/outline';
 import { ComponentType, ReactNode, useState } from 'react';
 import AppHead from './appHead';
 import Searchbar from './searchbar';
@@ -12,7 +12,6 @@ type LayoutProps = {
 
 const navigation = [
   { name: 'Dashboard', icon: HomeIcon, href: '/' },
-  // { name: 'Team', icon: UsersIcon, href: '/team', count: 3 },
   // {
   //   name: 'Projects',
   //   icon: FolderIcon,
@@ -24,6 +23,12 @@ const navigation = [
     icon: ViewListIcon,
     href: '/issues',
     authorization: 'read:issues',
+  },
+  {
+    name: 'Users',
+    icon: UsersIcon,
+    href: '/users',
+    authorization: 'read:users',
   },
 ];
 

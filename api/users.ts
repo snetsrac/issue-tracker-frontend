@@ -1,4 +1,4 @@
-import { PageQuery } from '../components/pagination/pagination';
+import { PageMetadata, PageQuery } from '../components/pagination/pagination';
 import { useApiQuery } from './useApi';
 
 export type User = {
@@ -9,6 +9,11 @@ export type User = {
   picture: string;
 };
 
+export type Users = {
+  content: User[];
+  page: PageMetadata;
+};
+
 export function useGetAuthUserQuery(enabled: boolean) {
   return useApiQuery<User>({
     path: '/user',
@@ -16,8 +21,9 @@ export function useGetAuthUserQuery(enabled: boolean) {
     queryOptions: { enabled },
   });
 }
-export function useGetUserQuery(pageQuery: PageQuery) {
-  return useApiQuery<User>({
+
+export function useGetUsersQuery(pageQuery: PageQuery) {
+  return useApiQuery<Users>({
     path: '/users',
     queryKey: ['users', pageQuery.toString()],
     pageQuery,

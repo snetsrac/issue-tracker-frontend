@@ -63,7 +63,9 @@ export default function Pagination({
               href={first}
               current={pageQuery.page === first.query.page}
             />
-            {pageQuery.page > 4 && <PaginationButtonDesktop />}
+            {pageMetadata.totalPages > 5 && pageQuery.page > 4 && (
+              <PaginationButtonDesktop />
+            )}
             {nearby.map((href) => (
               <PaginationButtonDesktop
                 key={href.query.page}
@@ -71,13 +73,16 @@ export default function Pagination({
                 current={pageQuery.page === href.query.page}
               />
             ))}
-            {pageQuery.page < pageMetadata.totalPages - 3 && (
-              <PaginationButtonDesktop />
+            {pageMetadata.totalPages > 5 &&
+              pageQuery.page < pageMetadata.totalPages - 3 && (
+                <PaginationButtonDesktop />
+              )}
+            {last && (
+              <PaginationButtonDesktop
+                href={last}
+                current={pageQuery.page === last.query.page}
+              />
             )}
-            <PaginationButtonDesktop
-              href={last}
-              current={pageQuery.page === last.query.page}
-            />
             <PaginationButtonDesktopEnd href={next} position='right' />
           </nav>
         </div>
@@ -190,7 +195,10 @@ function usePageLinks(pageQuery: PageQuery, pageMetadata: PageMetadata) {
 
   const first = newPageHref(1);
 
-  const last = newPageHref(pageMetadata.totalPages);
+  const last =
+    pageMetadata.totalPages > 4
+      ? newPageHref(pageMetadata.totalPages)
+      : undefined;
 
   let start: number;
 
@@ -205,9 +213,9 @@ function usePageLinks(pageQuery: PageQuery, pageMetadata: PageMetadata) {
     start = pageMetadata.totalPages - 3;
   }
 
-  const nearby = Array.from({ length: 3 }, (_, i: number) => i + start).map(
-    (i) => newPageHref(i)
-  );
+  const nearby = Array.from({ length: 3 }, (_, i: number) => i + start)
+    .filter((i) => i < pageMetadata.totalPages + 1)
+    .map((i) => newPageHref(i));
 
   return {
     previous,

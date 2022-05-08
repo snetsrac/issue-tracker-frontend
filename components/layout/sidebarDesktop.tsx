@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { ReactNode } from 'react';
+import usePermissions from '../../api/usePermissions';
 import { Navigation, Projects } from './layout';
 
 type SidebarDesktopProps = {
@@ -16,6 +17,7 @@ export default function SidebarDesktop({
   userPanel,
 }: SidebarDesktopProps) {
   const router = useRouter();
+  const permissions = usePermissions();
 
   return (
     <div className='hidden lg:fixed lg:inset-y-0 lg:flex lg:w-64'>
@@ -29,34 +31,40 @@ export default function SidebarDesktop({
         <div className='flex flex-1 flex-col overflow-y-auto bg-gray-800'>
           <nav className='flex-1 px-2 py-4'>
             <div className='space-y-1'>
-              {navigation.map((item) => (
-                <Link href={item.href} key={item.href}>
-                  <a
-                    className={
-                      (router.pathname === item.href
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white') +
-                      ' ' +
-                      'group flex items-center rounded-md px-2 py-2 text-sm font-medium'
-                    }
-                    aria-current={
-                      router.pathname === item.href ? 'page' : undefined
-                    }
-                  >
-                    <item.icon
+              {navigation
+                .filter(
+                  (item) =>
+                    item.authorization === undefined ||
+                    permissions.includes(item.authorization)
+                )
+                .map((item) => (
+                  <Link href={item.href} key={item.href}>
+                    <a
                       className={
                         (router.pathname === item.href
-                          ? 'text-gray-300'
-                          : 'text-gray-400 group-hover:text-gray-300') +
+                          ? 'bg-gray-900 text-white'
+                          : 'text-gray-300 hover:bg-gray-700 hover:text-white') +
                         ' ' +
-                        'mr-3 h-6 w-6 flex-shrink-0'
+                        'group flex items-center rounded-md px-2 py-2 text-sm font-medium'
                       }
-                      aria-hidden='true'
-                    />
-                    {item.name}
-                  </a>
-                </Link>
-              ))}
+                      aria-current={
+                        router.pathname === item.href ? 'page' : undefined
+                      }
+                    >
+                      <item.icon
+                        className={
+                          (router.pathname === item.href
+                            ? 'text-gray-300'
+                            : 'text-gray-400 group-hover:text-gray-300') +
+                          ' ' +
+                          'mr-3 h-6 w-6 flex-shrink-0'
+                        }
+                        aria-hidden='true'
+                      />
+                      {item.name}
+                    </a>
+                  </Link>
+                ))}
             </div>
             {projects && projects.length > 0 && (
               <div className='mt-10'>
