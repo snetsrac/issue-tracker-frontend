@@ -34,7 +34,7 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
         <IssueDate date={issue?.createdAt} />
       </div>
       <div className='mt-6 space-y-8 border-t border-gray-200 py-6'>
-        <IssueAssignees assignees={issue?.assignees} />
+        <IssueAssignees id={id} issue={issue} />
         {/* <div>
           <h2 className='text-sm font-medium text-gray-500'>Tags</h2>
           <ul role='list' className='mt-3 leading-8'>
@@ -78,7 +78,7 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
           </ul>
         </div> */}
       </div>
-      {permissions.includes(Permissions.DELETE_ISSUES) && (
+      {permissions?.includes(Permissions.DELETE_ISSUES) && (
         <div className='space-y-8 border-t border-gray-200 py-6'>
           <button
             className='w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
@@ -93,7 +93,7 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
             text='Are you sure you want to delete this issue? This action cannot be undone.'
             primaryButtonText='Delete'
             primaryButtonAction={() => {
-              deleteIssue.mutate(id);
+              deleteIssue.mutate();
               router.push('/issues');
             }}
           />

@@ -6,7 +6,7 @@ import { AppState, Auth0Provider } from '@auth0/auth0-react';
 import Router from 'next/router';
 import { useState } from 'react';
 
-const onRedirectCallback = (appState: AppState) => {
+const onRedirectCallback = (appState?: AppState) => {
   Router.replace(appState?.returnTo || '/');
 };
 

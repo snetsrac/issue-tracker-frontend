@@ -8,28 +8,33 @@ import {
 } from 'react-query';
 import { PageQuery } from '../components/pagination/pagination';
 
-type UseApiQueryParams<T> = {
+type UseApiQueryParams<TResponse> = {
   path: string;
   queryKey: string[];
   pageQuery?: PageQuery;
   audience?: string;
   scope?: string;
   fetchOptions?: RequestInit;
-  queryOptions?: Omit<UseQueryOptions<T, Error, T>, 'queryKey' | 'queryFn'>;
+  queryOptions?: Omit<
+    UseQueryOptions<TResponse, Error, TResponse>,
+    'queryKey' | 'queryFn'
+  >;
 };
 
-type UseApiMutationParams<T, V> = {
+type UseApiMutationParams<TVariables, TResponse> = {
   path: string;
   queryKey: string[];
-  body?: any;
   pageQuery?: PageQuery;
   audience?: string;
   scope?: string;
   fetchOptions?: RequestInit;
-  mutationOptions?: Omit<UseMutationOptions<T, Error, V>, 'mutationFn'>;
+  mutationOptions?: Omit<
+    UseMutationOptions<TResponse, Error, TVariables>,
+    'mutationFn'
+  >;
 };
 
-export function useApiQuery<T>({
+export function useApiQuery<TResponse>({
   path,
   queryKey,
   pageQuery,
@@ -37,7 +42,7 @@ export function useApiQuery<T>({
   scope,
   fetchOptions = {},
   queryOptions = {},
-}: UseApiQueryParams<T>) {
+}: UseApiQueryParams<TResponse>) {
   const { getAccessTokenSilently } = useAuth0();
 
   const params = pageQuery ? `?${pageQuery.toString()}` : '';
@@ -60,46 +65,44 @@ export function useApiQuery<T>({
       return Promise.reject(new Error(String(response.status)));
     }
 
-    return response.json() as Promise<T>;
+    return response.json() as Promise<TResponse>;
   };
 
-  return useQuery<T, Error, T, QueryKey>(queryKey, queryFn, queryOptions);
+  return useQuery<TResponse, Error, TResponse, QueryKey>(
+    queryKey,
+    queryFn,
+    queryOptions
+  );
 }
 
-export function useApiMutation<T, V>({
+export function useApiMutation<TVariables, TResponse>({
   path,
-  queryKey,
-  body,
+  queryKey: mutationKey,
   pageQuery,
   audience = process.env.NEXT_PUBLIC_AUTH0_AUDIENCE,
   scope,
   fetchOptions = {},
   mutationOptions = {},
-}: UseApiMutationParams<T, V>) {
+}: UseApiMutationParams<TVariables, TResponse>) {
   const { getAccessTokenSilently } = useAuth0();
 
   const params = pageQuery ? `?${pageQuery.toString()}` : '';
 
-  const queryFn = async () => {
+  const mutationFn = async (variables: TVariables) => {
     try {
       const accessToken = await getAccessTokenSilently({ audience, scope });
 
-      const fetchInit = {
-        ...fetchOptions,
-        headers: {
-          ...fetchOptions.headers,
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      };
-
-      if (body !== undefined) {
-        fetchInit.body = body;
-      }
-
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}${path}${params}`,
-        fetchInit
+        {
+          ...fetchOptions,
+          headers: {
+            ...fetchOptions.headers,
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(variables),
+        }
       );
 
       if (!response.ok) {
@@ -115,5 +118,9 @@ export function useApiMutation<T, V>({
     }
   };
 
-  return useMutation<T, Error, V>(queryKey, queryFn, mutationOptions);
+  return useMutation<TResponse, Error, TVariables>(
+    mutationKey,
+    mutationFn,
+    mutationOptions
+  );
 }

@@ -12,7 +12,9 @@ export enum Permissions {
 }
 
 export default function usePermissions() {
-  const [permissions, setPermissions] = useState<string[]>([]);
+  const [permissions, setPermissions] = useState<string[] | undefined>(
+    undefined
+  );
   const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
@@ -26,13 +28,13 @@ export default function usePermissions() {
 
           setPermissions(payload['permissions']);
         } catch {
-          setPermissions([]);
+          setPermissions(undefined);
         }
       }
     };
 
     getToken();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, getAccessTokenSilently]);
 
   return permissions;
 }

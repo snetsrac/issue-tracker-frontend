@@ -23,9 +23,12 @@ function IssueCreatePage() {
     priority: IssuePriority.NULL,
   });
 
-  const createIssue = useCreateIssueMutation(issue);
+  const createIssue = useCreateIssueMutation();
 
-  if (!permissions.includes(Permissions.SUBMIT_ISSUES)) {
+  if (
+    permissions !== undefined &&
+    !permissions.includes(Permissions.SUBMIT_ISSUES)
+  ) {
     router.replace('/issues');
   }
 

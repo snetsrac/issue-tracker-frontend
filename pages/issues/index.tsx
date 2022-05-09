@@ -75,7 +75,7 @@ function IssuesPage() {
           </p>
         </div>
         <div className='mt-4 sm:mt-0 sm:ml-16 sm:flex-none'>
-          {permissions.includes(Permissions.SUBMIT_ISSUES) && (
+          {permissions?.includes(Permissions.SUBMIT_ISSUES) && (
             <LinkButton href='/issues/new'>Create Issue</LinkButton>
           )}
         </div>

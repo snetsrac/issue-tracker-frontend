@@ -22,6 +22,13 @@ export function useGetAuthUserQuery(enabled: boolean) {
   });
 }
 
+export function useGetAllUserSummariesQuery() {
+  return useApiQuery<Users>({
+    path: '/users?summary=true',
+    queryKey: ['users', 'summary'],
+  });
+}
+
 export function useGetUsersQuery(pageQuery: PageQuery) {
   return useApiQuery<Users>({
     path: '/users',

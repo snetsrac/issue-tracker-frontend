@@ -25,7 +25,7 @@ export type IssueUpdate = {
   description: string;
   status: IssueStatus;
   priority: IssuePriority;
-  assignees: User[];
+  assigneeIds: string[];
 };
 
 export enum IssueStatus {
@@ -64,35 +64,33 @@ export function useGetIssueByIdQuery(id: string) {
   });
 }
 
-export function useCreateIssueMutation(issue: IssueCreation) {
+export function useCreateIssueMutation() {
   const queryClient = useQueryClient();
 
-  return useApiMutation<Issue, IssueCreation>({
+  return useApiMutation<IssueCreation, Issue>({
     path: '/issues',
     queryKey: ['issues', 'new'],
-    body: issue,
     fetchOptions: { method: 'POST' },
     mutationOptions: {
       onSuccess: (newIssue) => {
         queryClient.invalidateQueries(['issues']);
-        queryClient.setQueryData(['issue', newIssue.id.toString()], newIssue);
+        queryClient.setQueryData(['issues', newIssue.id.toString()], newIssue);
       },
     },
   });
 }
 
-export function useUpdateIssueMutation(id: string, issue: IssueUpdate) {
+export function useUpdateIssueMutation(id: string) {
   const queryClient = useQueryClient();
 
-  return useApiMutation<Issue, IssueUpdate>({
+  return useApiMutation<IssueUpdate, Issue>({
     path: `/issues/${id}`,
     queryKey: ['issues', id, 'update'],
-    body: issue,
     fetchOptions: { method: 'PUT' },
     mutationOptions: {
       onSuccess: (updatedIssue) => {
         queryClient.invalidateQueries(['issues']);
-        queryClient.setQueryData(['issue', id], updatedIssue);
+        queryClient.setQueryData(['issues', id], updatedIssue);
       },
     },
   });
@@ -101,7 +99,7 @@ export function useUpdateIssueMutation(id: string, issue: IssueUpdate) {
 export function useDeleteIssueMutation(id: string) {
   const queryClient = useQueryClient();
 
-  return useApiMutation<void, string>({
+  return useApiMutation<void, void>({
     path: `/issues/${id}`,
     queryKey: ['issues', id, 'delete'],
     fetchOptions: { method: 'DELETE' },

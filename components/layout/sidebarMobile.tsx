@@ -86,7 +86,7 @@ export default function SidebarMobile({
                     .filter(
                       (item) =>
                         item.authorization === undefined ||
-                        permissions.includes(item.authorization)
+                        permissions?.includes(item.authorization)
                     )
                     .map((item) => (
                       <Link href={item.href} key={item.href}>
