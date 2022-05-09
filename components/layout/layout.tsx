@@ -12,7 +12,7 @@ type LayoutProps = {
 };
 
 const navigation = [
-  { name: 'Dashboard', icon: HomeIcon, href: '/' },
+  // { name: 'Dashboard', icon: HomeIcon, href: '/' },
   // {
   //   name: 'Projects',
   //   icon: FolderIcon,

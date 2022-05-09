@@ -27,7 +27,9 @@ export default function IssueTrackerApp({ Component, pageProps }: AppProps) {
       domain={process.env.NEXT_PUBLIC_AUTH0_DOMAIN as string}
       clientId={process.env.NEXT_PUBLIC_AUTH0_CLIENTID as string}
       redirectUri={
-        typeof window !== 'undefined' ? window.location.origin : undefined
+        typeof window !== 'undefined'
+          ? window.location.origin + '/issues'
+          : undefined
       }
       onRedirectCallback={onRedirectCallback}
       audience={process.env.NEXT_PUBLIC_AUTH0_AUDIENCE}

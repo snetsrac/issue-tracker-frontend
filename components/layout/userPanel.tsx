@@ -98,7 +98,9 @@ export default function UserPanel() {
       <div className='flex flex-shrink-0 bg-gray-700 px-4 pb-4'>
         <button
           className='flex h-10 w-full items-center justify-center rounded-md bg-gray-200 hover:bg-gray-400 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-700 lg:h-9'
-          onClick={() => logout({ returnTo: window.location.origin })}
+          onClick={() =>
+            logout({ returnTo: new URL(window.location.origin).origin })
+          }
         >
           <div className='text-base font-medium text-gray-900 lg:text-sm'>
             Log Out
