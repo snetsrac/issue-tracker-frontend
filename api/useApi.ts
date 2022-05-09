@@ -21,7 +21,7 @@ type UseApiQueryParams<T> = {
 type UseApiMutationParams<T, V> = {
   path: string;
   queryKey: string[];
-  body: any;
+  body?: any;
   pageQuery?: PageQuery;
   audience?: string;
   scope?: string;
@@ -65,6 +65,7 @@ export function useApiQuery<T>({
 
   return useQuery<T, Error, T, QueryKey>(queryKey, queryFn, queryOptions);
 }
+
 export function useApiMutation<T, V>({
   path,
   queryKey,
@@ -80,26 +81,38 @@ export function useApiMutation<T, V>({
   const params = pageQuery ? `?${pageQuery.toString()}` : '';
 
   const queryFn = async () => {
-    const accessToken = await getAccessTokenSilently({ audience, scope });
+    try {
+      const accessToken = await getAccessTokenSilently({ audience, scope });
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}${path}${params}`,
-      {
+      const fetchInit = {
         ...fetchOptions,
         headers: {
           ...fetchOptions.headers,
           Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(body),
+      };
+
+      if (body !== undefined) {
+        fetchInit.body = body;
       }
-    );
 
-    if (!response.ok) {
-      return Promise.reject(new Error(String(response.status)));
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}${path}${params}`,
+        fetchInit
+      );
+
+      if (!response.ok) {
+        return Promise.reject(new Error(String(response.status)));
+      }
+
+      return response
+        .json()
+        .then((data) => data)
+        .catch(() => {});
+    } catch (e) {
+      return Promise.reject(e);
     }
-
-    return response.json() as Promise<T>;
   };
 
   return useMutation<T, Error, V>(queryKey, queryFn, mutationOptions);

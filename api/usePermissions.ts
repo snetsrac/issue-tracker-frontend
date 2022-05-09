@@ -13,20 +13,26 @@ export enum Permissions {
 
 export default function usePermissions() {
   const [permissions, setPermissions] = useState<string[]>([]);
-  const { getAccessTokenSilently } = useAuth0();
+  const { isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     const getToken = async () => {
-      const token = await getAccessTokenSilently();
-      const payload = jwt.decode(token, { complete: true })?.payload as {
-        permissions: string[];
-      };
+      if (isAuthenticated) {
+        try {
+          const token = await getAccessTokenSilently();
+          const payload = jwt.decode(token, { complete: true })?.payload as {
+            permissions: string[];
+          };
 
-      setPermissions(payload['permissions']);
+          setPermissions(payload['permissions']);
+        } catch {
+          setPermissions([]);
+        }
+      }
     };
 
     getToken();
-  }, []);
+  }, [isAuthenticated]);
 
   return permissions;
 }

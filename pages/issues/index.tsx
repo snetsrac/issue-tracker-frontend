@@ -3,7 +3,7 @@ import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
 import { useGetIssuesQuery } from '../../api/issues';
 import usePermissions, { Permissions } from '../../api/usePermissions';
-import { IssuePriority } from '../../components/issues/issuePriority';
+import { IssuePriority } from '../../components/issues/IssuePriority';
 import { IssueStatus } from '../../components/issues/IssueStatus';
 import { withLayout } from '../../components/layout/layout';
 import Pagination, {

@@ -66,9 +66,10 @@ export function useGetIssueByIdQuery(id: string) {
 
 export function useCreateIssueMutation(issue: IssueCreation) {
   const queryClient = useQueryClient();
+
   return useApiMutation<Issue, IssueCreation>({
     path: '/issues',
-    queryKey: ['issues'],
+    queryKey: ['issues', 'new'],
     body: issue,
     fetchOptions: { method: 'POST' },
     mutationOptions: {
@@ -82,15 +83,32 @@ export function useCreateIssueMutation(issue: IssueCreation) {
 
 export function useUpdateIssueMutation(id: string, issue: IssueUpdate) {
   const queryClient = useQueryClient();
+
   return useApiMutation<Issue, IssueUpdate>({
     path: `/issues/${id}`,
-    queryKey: ['issues', id],
+    queryKey: ['issues', id, 'update'],
     body: issue,
     fetchOptions: { method: 'PUT' },
     mutationOptions: {
       onSuccess: (updatedIssue) => {
         queryClient.invalidateQueries(['issues']);
         queryClient.setQueryData(['issue', id], updatedIssue);
+      },
+    },
+  });
+}
+
+export function useDeleteIssueMutation(id: string) {
+  const queryClient = useQueryClient();
+
+  return useApiMutation<void, string>({
+    path: `/issues/${id}`,
+    queryKey: ['issues', id, 'delete'],
+    fetchOptions: { method: 'DELETE' },
+    mutationOptions: {
+      onSettled: () => {
+        queryClient.invalidateQueries(['issues']);
+        queryClient.removeQueries(['issues', id]);
       },
     },
   });

@@ -17,7 +17,7 @@ function IssuePage() {
   const { user } = useAuth0();
   const permissions = usePermissions();
 
-  let { isError, error, data: issue } = useGetIssueByIdQuery(id);
+  const { isError, error, data: issue } = useGetIssueByIdQuery(id);
 
   if (isError) {
     return (

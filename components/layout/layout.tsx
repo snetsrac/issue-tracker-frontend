@@ -1,5 +1,6 @@
 import { HomeIcon, UsersIcon, ViewListIcon } from '@heroicons/react/outline';
 import { ComponentType, ReactNode, useState } from 'react';
+import { Permissions } from '../../api/usePermissions';
 import AppHead from './appHead';
 import Searchbar from './searchbar';
 import SidebarDesktop from './sidebarDesktop';
@@ -22,13 +23,13 @@ const navigation = [
     name: 'Issues',
     icon: ViewListIcon,
     href: '/issues',
-    authorization: 'read:issues',
+    authorization: Permissions.READ_ISSUES,
   },
   {
     name: 'Users',
     icon: UsersIcon,
     href: '/users',
-    authorization: 'read:users',
+    authorization: Permissions.READ_USERS,
   },
 ];
 
@@ -66,7 +67,8 @@ function Layout({ children }: LayoutProps) {
         <div className='flex w-0 flex-1 flex-col lg:pl-64'>
           <Searchbar setIsSidebarOpen={setIsSidebarOpen} />
           <main className='flex-1'>
-            <div className='py-8 xl:py-10'>{children}</div>
+            <div className='py-16'>{children}</div>
+            {/* py-8 xl:py-10 with searchbar */}
           </main>
         </div>
       </div>

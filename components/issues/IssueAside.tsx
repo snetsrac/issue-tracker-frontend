@@ -1,8 +1,12 @@
-import { Issue } from '../../api/issues';
-import { IssuePriority } from './issuePriority';
+import { Issue, useDeleteIssueMutation } from '../../api/issues';
+import { IssuePriority } from './IssuePriority';
 import { IssueStatus } from './IssueStatus';
 import IssueDate from './IssueDate';
 import IssueAssignees from './IssueAssignees';
+import usePermissions, { Permissions } from '../../api/usePermissions';
+import ModalAlert from '../ui/modalAlert';
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 type IssueAsideProps = {
   className: string;
@@ -10,6 +14,13 @@ type IssueAsideProps = {
 };
 
 export function IssueAside({ className, issue }: IssueAsideProps) {
+  const router = useRouter();
+  const id = router.query.id as string;
+
+  const permissions = usePermissions();
+  const [deleteModalIsOpen, setDeleteModalIsOpen] = useState(false);
+  const deleteIssue = useDeleteIssueMutation(id);
+
   return (
     <aside className={className}>
       <h2 className='sr-only'>Details</h2>
@@ -67,6 +78,27 @@ export function IssueAside({ className, issue }: IssueAsideProps) {
           </ul>
         </div> */}
       </div>
+      {permissions.includes(Permissions.DELETE_ISSUES) && (
+        <div className='space-y-8 border-t border-gray-200 py-6'>
+          <button
+            className='w-full justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2'
+            onClick={() => setDeleteModalIsOpen(true)}
+          >
+            Delete issue
+          </button>
+          <ModalAlert
+            isOpen={deleteModalIsOpen}
+            setIsOpen={setDeleteModalIsOpen}
+            title='Delete issue'
+            text='Are you sure you want to delete this issue? This action cannot be undone.'
+            primaryButtonText='Delete'
+            primaryButtonAction={() => {
+              deleteIssue.mutate(id);
+              router.push('/issues');
+            }}
+          />
+        </div>
+      )}
     </aside>
   );
 }
